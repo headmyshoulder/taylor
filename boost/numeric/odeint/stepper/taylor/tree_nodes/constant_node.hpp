@@ -1,0 +1,60 @@
+/*
+ * constant_node.hpp
+ *
+ *  Created on: Jun 9, 2011
+ *      Author: karsten
+ */
+
+#ifndef CONSTANT_NODE_HPP_
+#define CONSTANT_NODE_HPP_
+
+#include <ostream>
+
+namespace boost {
+namespace numeric {
+namespace odeint {
+
+
+namespace tree_nodes {
+
+template< class Value = double >
+struct constant_node
+{
+	constant_node( Value value )
+	: m_value( value ) { }
+
+	template< class Derivs >
+	Value operator()( Derivs &derivs , size_t which ) const
+	{
+		return ( which == 0 ) ? m_value : 0.0;
+	}
+
+	Value m_value;
+};
+
+
+template< class Value >
+constant_node< Value > make_constant_node( const Value &value )
+{
+	return constant_node< Value >( value );
+}
+
+template< class Value >
+void print_node( std::ostream &out , const constant_node< Value > &node , size_t indent = 0 )
+{
+	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
+	out << "Constant ( " << node.m_value << " )";
+}
+
+
+
+} // namespace tree_nodes
+
+
+
+} // namespace odeint
+} // namespace numeric
+} // namespace boost
+
+
+#endif /* CONSTANT_NODE_HPP_ */
