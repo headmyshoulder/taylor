@@ -1,4 +1,7 @@
-taylor is a small library for solving the initial value problem of ordinary differential equations (ODEs) by means of the Taylor series method. It is an add-on for odeint and will be one time part of the library.
+taylor
+======
+
+taylor is a small library for solving the initial value problem of ordinary differential equations (ODEs) by means of the Taylor series method. It is an add-on for [.odeint](http://www.karstenahnert.com/software/odeint/) and will be one time part of the library.
 
 The taylor series methods works by calculating the Taylor coefficients of the state of an ODE. There are already libraries for this method but most of the lack of uniqueness. One has to define the ordinary differential equation in an addition application or language like Mathematica which it then evaluated.
 
