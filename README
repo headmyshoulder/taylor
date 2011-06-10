@@ -3,15 +3,23 @@ taylor
 
 taylor is a small library for solving the initial value problem of ordinary differential equations (ODEs) by means of the Taylor series method. It is an add-on for [.odeint](http://www.karstenahnert.com/software/odeint/) and will be one time part of the library.
 
-The taylor series methods works by calculating the Taylor coefficients of the state of an ODE. There are already libraries for this method but most of the lack of uniqueness. One has to define the ordinary differential equation in an addition application or language like Mathematica which it then evaluated.
+The taylor series methods works by calculating the Taylor coefficients of the state of an ODE. There are already libraries for this method but most of them lack of uniqueness, that is one has to define ODE in an additional application or language like Mathematica.
 
-The taylor library uses C++ for this task. The ordinary differential equation is represented as an expression tree which can be build by the standard operators +,-,/,*. Hence it provides an unique and human readable C++ interface. The expression tree is the transformed into an evaluable tree with the help of boost.proto.
+The taylor library uses C++ for this task. The ordinary differential equation is represented as an expression tree which can be build by the standard operators +,-,/,*. Hence it provides an unique and human readable C++ interface. The tree is then transformed into an evaluable tree with the help of boost.proto.
 
-An example is the Lorenz system which should by passed and evaluated like:
+An example is the Lorenz system which can be passed and evaluated like:
 
 taylor.do_step( make_vector(
     sigma * ( arg2 - arg1 ) ,
     R * arg1 - arg2 - arg1 * arg3 ,
     arg1 * arg2 - b * arg3 ) , x , t , dt );
 
-Note, arg1, arg2, arg3 are here placeholders for the variable x,y,z of the Lorenz system. In an preliminary version of taylor it has been shown that the performance is better or at least equal to hand written Fortran code. Hence, taylor is a promising candidate for the Taylor series method.
+arg1, arg2, arg3 are here placeholders for the variables x,y,z of the Lorenz system. In a preliminary version of taylor it has been shown that the performance is better or at least equal to hand written Fortran code. Hence, taylor is a promising candidate for the Taylor series method.
+
+
+Overview
+--------
+
+The library can be found in boost/numeric/odeint/stepper/taylor.hpp and the subdirectories boost/numeric/odeint/stepper/taylor. Sorry for that strange directory structure, but it should be compatible with odeint such that taylor can be integrated one day into odeint.
+
+Test, examples and documentation can be found in libs/numeric/odeint.
