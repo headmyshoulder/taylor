@@ -1,4 +1,4 @@
-taylor
+Taylor
 ======
 
 taylor is a small library for solving the initial value problem of ordinary differential equations (ODEs) by means of the Taylor series method. It is an add-on for [.odeint](http://www.karstenahnert.com/software/odeint/) and will be one time part of the library.
