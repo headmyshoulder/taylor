@@ -23,3 +23,10 @@ Overview
 The library can be found in boost/numeric/odeint/stepper/taylor.hpp and the subdirectories boost/numeric/odeint/stepper/taylor. Sorry for that strange directory structure, but it should be compatible with odeint such that taylor can be integrated one day into odeint.
 
 Test, examples and documentation can be found in libs/numeric/odeint.
+
+
+Copyright Note
+--------------
+Copyright Karsten Ahnert 2011.
+Distributed under the Boost Software License, Version 1.0.
+(See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)

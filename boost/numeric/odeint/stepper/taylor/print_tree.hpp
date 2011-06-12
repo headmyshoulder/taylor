@@ -3,6 +3,12 @@
  *
  *  Created on: Jun 9, 2011
  *      Author: karsten
+ *
+ *
+ * Copyright Karsten Ahnert 2011.
+ * Distributed under the Boost Software License, Version 1.0.
+ * (See accompanying file LICENSE_1_0.txt or copy at
+ * http://www.boost.org/LICENSE_1_0.txt)
  */
 
 #ifndef PRINT_TREE_HPP_
