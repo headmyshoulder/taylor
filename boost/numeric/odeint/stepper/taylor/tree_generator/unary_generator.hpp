@@ -1,0 +1,130 @@
+/*
+ * unary_generator.hpp
+ *
+ *  Created on: Jun 16, 2011
+ *      Author: karsten
+ */
+
+#ifndef UNARY_GENERATOR_HPP_
+#define UNARY_GENERATOR_HPP_
+
+
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/sin_node.hpp>
+
+#include <boost/proto/proto.hpp>
+
+namespace boost {
+namespace numeric {
+namespace odeint {
+
+
+namespace tree_generators {
+
+namespace proto = boost::proto;
+
+struct sin_tag {};
+struct cos_tag {};
+struct exp_tag {};
+struct log_tag {};
+
+
+struct sin_terminal : proto::terminal< sin_tag > {};
+struct cos_terminal : proto::terminal< cos_tag > {};
+struct exp_terminal : proto::terminal< exp_tag > {};
+struct log_terminal : proto::terminal< log_tag > {};
+
+
+const sin_terminal::type sin = {{}};
+const cos_terminal::type cos = {{}};
+const exp_terminal::type exp = {{}};
+const log_terminal::type log = {{}};
+
+
+struct sin_op {
+	template< class Child > struct result { typedef typename tree_nodes::sin_node< Child , double > type; };
+};
+
+struct cos_op {
+	// ToDo : add cos node
+	template< class Child > struct result { typedef typename tree_nodes::sin_node< Child , double > type; };
+};
+
+struct exp_op {
+	// ToDo : add exp node
+	template< class Child > struct result { typedef typename tree_nodes::sin_node< Child , double > type; };
+};
+
+struct log_op {
+	// ToDo :: add sin node
+	template< class Child > struct result { typedef typename tree_nodes::sin_node< Child , double > type; };
+};
+
+
+
+
+template< typename Grammar , typename UnaryOp >
+struct unary_transform : proto::transform< unary_transform< Grammar , UnaryOp > >
+{
+	template< typename Expr , typename State , typename Data >
+	struct impl : proto::transform_impl< Expr , State , Data >
+	{
+		typedef typename impl::expr expr_type;
+		typedef typename expr_type::proto_args args_type;
+		typedef typename args_type::child1 child_type;
+		typedef typename boost::result_of< Grammar( child_type ) >::type child_result;
+
+		typedef typename UnaryOp::template result< child_result >::type result_type;
+
+		result_type operator ()(
+				typename impl::expr_param expr ,
+				typename impl::state_param state ,
+				typename impl::data_param data ) const
+		{
+			return result_type( Grammar()( proto::child_c<1>( expr ) ) );
+		}
+	};
+};
+
+template< typename Grammar >
+struct unary_generator : proto::or_<
+	proto::when< proto::function< sin_terminal , Grammar > , unary_transform< Grammar , sin_op > > ,
+	proto::when< proto::function< cos_terminal , Grammar > , unary_transform< Grammar , cos_op > > ,
+	proto::when< proto::function< exp_terminal , Grammar > , unary_transform< Grammar , exp_op > > ,
+	proto::when< proto::function< log_terminal , Grammar > , unary_transform< Grammar , log_op > >
+> { };
+
+
+std::ostream& operator<<( std::ostream &s , const sin_tag &tag ) {
+	s << "sin";
+	return s;
+}
+
+std::ostream& operator<<( std::ostream &s , const cos_tag &tag ) {
+	s << "cos";
+	return s;
+}
+
+std::ostream& operator<<( std::ostream &s , const exp_tag &tag ) {
+	s << "exp";
+	return s;
+}
+
+std::ostream& operator<<( std::ostream &s , const log_tag &tag ) {
+	s << "log";
+	return s;
+}
+
+
+
+
+
+} // namespace tree_generators
+
+
+
+} // namespace odeint
+} // namespace numeric
+} // namespace boost
+
+
+#endif /* UNARY_GENERATOR_HPP_ */
