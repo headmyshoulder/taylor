@@ -21,10 +21,14 @@
 #include <boost/proto/proto.hpp>
 
 
-#include <boost/numeric/odeint/stepper/taylor/tree_generator/plus_generator.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_generator/variable_generator.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_generator/constant_generator.hpp>
+
+#include <boost/numeric/odeint/stepper/taylor/tree_generator/plus_generator.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_generator/minus_generator.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_generator/multiplies_generator.hpp>
+
+#include <boost/numeric/odeint/stepper/taylor/tree_generator/unary_generator.hpp>
 
 namespace boost {
 namespace numeric {
@@ -44,7 +48,9 @@ struct tree_generator :
 		variable_generator< proto::_ > ,
 		constant_generator ,
 		plus_generator< tree_generator > ,
-		multiplies_generator< tree_generator >
+		minus_generator< tree_generator > ,
+		multiplies_generator< tree_generator > ,
+		unary_generator< tree_generator >
 	> { };
 
 

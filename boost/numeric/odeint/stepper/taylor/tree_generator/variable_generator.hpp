@@ -37,11 +37,6 @@ namespace mpl = boost::mpl;
 
 template< typename I > struct placeholder : I {};
 
-proto::terminal< placeholder< mpl::size_t< 0 > > >::type const arg1 = {};
-proto::terminal< placeholder< mpl::size_t< 1 > > >::type const arg2 = {};
-proto::terminal< placeholder< mpl::size_t< 2 > > >::type const arg3 = {};
-
-
 template< typename I >
 std::ostream& operator<<( std::ostream &s , const placeholder< I > &p )
 {

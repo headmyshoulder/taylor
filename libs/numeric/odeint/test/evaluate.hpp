@@ -22,12 +22,14 @@
 template< class Eq1 , class Eq2 >
 void evaluate( const Eq1 &_eq1 , const Eq2 &_eq2 )
 {
+	using namespace boost::numeric::odeint::tree_nodes;
+
 	Eq1 eq1 = _eq1;
 	Eq2 eq2 = _eq2;
 
-	print_tree( std::cout , eq1 );
+	print_tree( std::cout , 0 )( eq1 );
 	std::cout << "\n\n";
-	print_tree( std::cout , eq2 );
+	print_tree( std::cout , 0 )( eq2 );
 
 	typedef std::tr1::array< double , 2 > state_type;
 	typedef std::tr1::array< state_type , 10 > deriv_type;

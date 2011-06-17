@@ -15,6 +15,7 @@
 #define PRINT_TREE_HPP_
 
 #include <ostream>
+#include <iostream>
 
 namespace boost {
 namespace numeric {
@@ -24,12 +25,21 @@ namespace odeint {
 namespace tree_nodes {
 
 
-template< class RootNode >
-void print_tree( std::ostream &out , const RootNode &root , size_t indent = 0 )
+struct print_tree
 {
-	print_node( out , root , indent );
-	out << "\n";
-}
+	std::ostream &m_out;
+	size_t m_indent;
+	print_tree( std::ostream &out = std::cout , size_t indent = 0 ) : m_out( out ) , m_indent( indent ) { }
+
+	typedef void result_type;
+
+	template< class RootNode >
+	void operator()( const RootNode &node ) const
+	{
+		print_node( m_out , node , m_indent );
+		m_out << "\n";
+	}
+};
 
 
 

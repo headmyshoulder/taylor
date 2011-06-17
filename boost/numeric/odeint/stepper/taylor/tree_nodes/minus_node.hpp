@@ -1,7 +1,7 @@
 /*
- * plus_node.hpp
+ * minus_node.hpp
  *
- *  Created on: Jun 9, 2011
+ *  Created on: Jun 17, 2011
  *      Author: karsten
  *
  *
@@ -11,8 +11,8 @@
  * http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef PLUS_NODE_HPP_
-#define PLUS_NODE_HPP_
+#ifndef MINUS_NODE_HPP_
+#define MINUS_NODE_HPP_
 
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes/binary_node.hpp>
 
@@ -24,26 +24,23 @@ namespace odeint {
 namespace tree_nodes {
 
 template< class Left , class Right , class Value = double >
-struct plus_node : binary_node< Left , Right , Value >
+struct minus_node : public binary_node< Left , Right , Value >
 {
-	plus_node( Left left , Right right )
-	: binary_node< Left , Right , Value >( left , right , "Plus" ) { }
+	minus_node( Left left , Right right )
+	: binary_node< Left , Right , Value >( left , right , "Minus" ) { }
 
 	template< class Derivs >
 	Value operator()( Derivs &derivs , size_t which ) const
 	{
-		return m_left( derivs , which ) + m_right( derivs , which );
+		return m_left( derivs , which ) - m_right( derivs , which );
 	}
 };
 
 template< class Value , class Left , class Right >
-plus_node< Left , Right , Value > make_plus_node( const Left &left , const Right &right )
+minus_node< Left , Right , Value > make_minus_node( const Left &left , const Right &right )
 {
-	return plus_node< Left , Right , Value >( left , right );
+	return minus_node< Left , Right , Value >( left , right );
 }
-
-
-
 
 
 } // namespace tree_nodes
@@ -55,4 +52,4 @@ plus_node< Left , Right , Value > make_plus_node( const Left &left , const Right
 } // namespace boost
 
 
-#endif /* PLUS_NODE_HPP_ */
+#endif /* MINUS_NODE_HPP_ */

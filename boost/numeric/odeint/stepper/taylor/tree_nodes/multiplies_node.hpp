@@ -14,7 +14,7 @@
 #ifndef MULTIPLIES_NODE_HPP_
 #define MULTIPLIES_NODE_HPP_
 
-#include <ostream>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/binary_node.hpp>
 
 namespace boost {
 namespace numeric {
@@ -24,10 +24,10 @@ namespace odeint {
 namespace tree_nodes {
 
 template< class Left , class Right , class Value = double >
-struct multiplies_node
+struct multiplies_node : binary_node< Left , Right , Value >
 {
 	multiplies_node( Left left , Right right )
-	: m_left( left ) , m_right( right ) { }
+	: binary_node< Left , Right , Value >( left , right , "Multiplies" ) { }
 
 	template< class Derivs >
 	Value operator()( Derivs &derivs , size_t which )
@@ -39,28 +39,12 @@ struct multiplies_node
 		}
 		return result;
 	}
-
-	Left m_left;
-	Right m_right;
 };
 
 template< class Value , class Left , class Right >
 multiplies_node< Left , Right , Value > make_multiplies_node( const Left &left , const Right &right )
 {
 	return multiplies_node< Left , Right , Value >( left , right );
-}
-
-template< class Left , class Right , class Value >
-void print_node( std::ostream &out , const multiplies_node< Left , Right , Value > &node , size_t indent = 0 )
-{
-	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
-	out << "Multiplies (\n";
-	print_node( out , node.m_left , indent + 1 );
-	out << " ,\n";
-	print_node( out , node.m_right , indent + 1 );
-	out << "\n";
-	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
-	out << ")";
 }
 
 

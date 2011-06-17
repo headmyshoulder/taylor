@@ -5,4 +5,7 @@
 # bring in rules for testing
 
 exe test_nodes : test_nodes.cpp ;
-exe test_proto_nodes : test_proto_nodes.cpp ; 
+exe test_proto_nodes : test_proto_nodes.cpp ;
+exe test_taylor_direct_fixed_order : test_taylor_direct_fixed_order.cpp ;  
+
+exe test_sin : test_sin.cpp ;

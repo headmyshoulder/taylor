@@ -1,7 +1,7 @@
 /*
- * multiplies_generator.hpp
+ * minus_generator.hpp
  *
- *  Created on: Jun 9, 2011
+ *  Created on: Jun 17, 2011
  *      Author: karsten
  *
  *
@@ -11,11 +11,10 @@
  * http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef MULTIPLIES_GENERATOR_HPP_
-#define MULTIPLIES_GENERATOR_HPP_
+#ifndef MINUS_GENERATOR_HPP_
+#define MINUS_GENERATOR_HPP_
 
-
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/multiplies_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/minus_node.hpp>
 
 #include <boost/proto/proto.hpp>
 
@@ -28,8 +27,9 @@ namespace tree_generators {
 
 namespace proto = boost::proto;
 
+
 template< typename Grammar >
-struct multiplies_transform : proto::transform< multiplies_transform< Grammar > >
+struct minus_transform : proto::transform< minus_transform< Grammar > >
 {
 	template< typename Expr , typename State , typename Data >
 	struct impl : proto::transform_impl< Expr , State , Data >
@@ -42,7 +42,7 @@ struct multiplies_transform : proto::transform< multiplies_transform< Grammar > 
 		typedef typename boost::result_of< Grammar( left_type ) >::type left_result;
 		typedef typename boost::result_of< Grammar( right_type ) >::type right_result;
 
-		typedef typename tree_nodes::multiplies_node< left_result , right_result > result_type;
+		typedef typename tree_nodes::minus_node< left_result , right_result > result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -55,7 +55,7 @@ struct multiplies_transform : proto::transform< multiplies_transform< Grammar > 
 };
 
 template< typename Grammar >
-struct multiplies_generator : proto::when< proto::multiplies< Grammar , Grammar > , multiplies_transform< Grammar > > { };
+struct minus_generator : proto::when< proto::minus< Grammar , Grammar > , minus_transform< Grammar > > { };
 
 
 
@@ -68,4 +68,5 @@ struct multiplies_generator : proto::when< proto::multiplies< Grammar , Grammar 
 } // namespace boost
 
 
-#endif /* MULTIPLIES_GENERATOR_HPP_ */
+
+#endif /* MINUS_GENERATOR_HPP_ */

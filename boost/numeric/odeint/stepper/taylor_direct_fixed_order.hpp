@@ -87,6 +87,7 @@ public:
 	{
 		namespace mpl = boost::mpl;
 		namespace fusion = boost::fusion;
+		namespace proto = boost::proto;
 		using namespace tree_generators;
 
 		BOOST_STATIC_ASSERT(( boost::fusion::traits::is_sequence< System >::value ));
@@ -96,7 +97,10 @@ public:
 		typedef typename fusion::result_of::as_vector< transformed_type const >::type tree_type;
 		tree_type trees = fusion::as_vector( fusion::transform( sys , tree_generator() ) );
 
-		fusion::for_each( trees , boost::bind( tree_nodes::print_tree_class() , boost::ref( std::cout ) , _1 ) );
+		fusion::for_each( trees , tree_nodes::print_tree( std::cout , 0 ) );
+
+		fusion::for_each( sys , proto::functional::display_expr() );
+
 
 
 

@@ -19,6 +19,7 @@
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes/variable_node.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes/plus_node.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes/multiplies_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/sin_node.hpp>
 
 #include "evaluate.hpp"
 
@@ -32,7 +33,7 @@ int main( int argc , char **argv )
 {
 	evaluate(
 		make_plus_node< double >( make_constant_node< double >( 1.0 ) , make_variable_node< double >( 1 ) ) ,
-		make_multiplies_node< double >( make_variable_node< double >( 0 ) , make_variable_node< double >( 1 ) )
+		make_sin< double >( make_multiplies_node< double >( make_variable_node< double >( 0 ) , make_variable_node< double >( 1 ) ) )
 	);
 
 	return 0;
