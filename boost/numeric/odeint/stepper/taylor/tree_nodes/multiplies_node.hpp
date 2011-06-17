@@ -19,9 +19,9 @@
 namespace boost {
 namespace numeric {
 namespace odeint {
+namespace taylor_detail {
 
 
-namespace tree_nodes {
 
 template< class Left , class Right , class Value = double >
 struct multiplies_node : binary_node< Left , Right , Value >
@@ -49,10 +49,7 @@ multiplies_node< Left , Right , Value > make_multiplies_node( const Left &left ,
 
 
 
-} // namespace tree_nodes
-
-
-
+} // namespace taylor_detail
 } // namespace odeint
 } // namespace numeric
 } // namespace boost

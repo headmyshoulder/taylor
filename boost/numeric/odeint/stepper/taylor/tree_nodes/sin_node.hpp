@@ -21,9 +21,8 @@
 namespace boost {
 namespace numeric {
 namespace odeint {
+namespace taylor_detail {
 
-
-namespace tree_nodes {
 
 
 template< class Child , class Value = double >
@@ -50,10 +49,7 @@ sin_node< Child , Value > make_sin( const Child &child )
 
 
 
-} // namespace tree_nodes
-
-
-
+} // namespace taylor_detail
 } // namespace odeint
 } // namespace numeric
 } // namespace boost

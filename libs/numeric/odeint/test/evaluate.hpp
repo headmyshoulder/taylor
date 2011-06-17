@@ -22,7 +22,7 @@
 template< class Eq1 , class Eq2 >
 void evaluate( const Eq1 &_eq1 , const Eq2 &_eq2 )
 {
-	using namespace boost::numeric::odeint::tree_nodes;
+	using namespace boost::numeric::odeint::taylor_detail;
 
 	Eq1 eq1 = _eq1;
 	Eq2 eq2 = _eq2;

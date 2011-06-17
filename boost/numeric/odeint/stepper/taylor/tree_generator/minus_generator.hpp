@@ -21,9 +21,9 @@
 namespace boost {
 namespace numeric {
 namespace odeint {
+namespace taylor_detail {
 
 
-namespace tree_generators {
 
 namespace proto = boost::proto;
 
@@ -42,7 +42,7 @@ struct minus_transform : proto::transform< minus_transform< Grammar > >
 		typedef typename boost::result_of< Grammar( left_type ) >::type left_result;
 		typedef typename boost::result_of< Grammar( right_type ) >::type right_result;
 
-		typedef typename tree_nodes::minus_node< left_result , right_result > result_type;
+		typedef minus_node< left_result , right_result > result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -59,10 +59,7 @@ struct minus_generator : proto::when< proto::minus< Grammar , Grammar > , minus_
 
 
 
-} // namespace tree_generators
-
-
-
+} // namespace taylor_detail
 } // namespace odeint
 } // namespace numeric
 } // namespace boost

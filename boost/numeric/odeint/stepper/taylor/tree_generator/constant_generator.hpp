@@ -23,13 +23,11 @@
 namespace boost {
 namespace numeric {
 namespace odeint {
+namespace taylor_detail {
 
 
-namespace tree_generators {
 
 namespace proto = boost::proto;
-
-
 
 
 struct constant_transform : proto::transform< constant_transform >
@@ -37,7 +35,7 @@ struct constant_transform : proto::transform< constant_transform >
 	template< typename Expr , typename State , typename Data >
 	struct impl : proto::transform_impl< Expr , State , Data >
 	{
-		typedef typename tree_nodes::constant_node< double > result_type;
+		typedef constant_node< double > result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -54,10 +52,7 @@ struct constant_generator : proto::when< proto::terminal< double > , constant_tr
 
 
 
-} // namespace tree_generators
-
-
-
+} // namespace taylor_detail
 } // namespace odeint
 } // namespace numeric
 } // namespace boost

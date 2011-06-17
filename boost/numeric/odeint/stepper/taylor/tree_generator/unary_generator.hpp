@@ -22,9 +22,7 @@
 namespace boost {
 namespace numeric {
 namespace odeint {
-
-
-namespace tree_generators {
+namespace taylor_detail {
 
 namespace proto = boost::proto;
 
@@ -47,22 +45,22 @@ const log_terminal::type log = {{}};
 
 
 struct sin_op {
-	template< class Child > struct result { typedef typename tree_nodes::sin_node< Child , double > type; };
+	template< class Child > struct result { typedef sin_node< Child , double > type; };
 };
 
 struct cos_op {
 	// ToDo : add cos node
-	template< class Child > struct result { typedef typename tree_nodes::sin_node< Child , double > type; };
+	template< class Child > struct result { typedef sin_node< Child , double > type; };
 };
 
 struct exp_op {
 	// ToDo : add exp node
-	template< class Child > struct result { typedef typename tree_nodes::sin_node< Child , double > type; };
+	template< class Child > struct result { typedef sin_node< Child , double > type; };
 };
 
 struct log_op {
 	// ToDo :: add sin node
-	template< class Child > struct result { typedef typename tree_nodes::sin_node< Child , double > type; };
+	template< class Child > struct result { typedef sin_node< Child , double > type; };
 };
 
 
@@ -124,10 +122,7 @@ std::ostream& operator<<( std::ostream &s , const log_tag &tag ) {
 
 
 
-} // namespace tree_generators
-
-
-
+} // namespace taylor_detail
 } // namespace odeint
 } // namespace numeric
 } // namespace boost

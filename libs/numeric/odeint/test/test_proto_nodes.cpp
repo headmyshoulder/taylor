@@ -23,15 +23,15 @@
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes/multiplies_node.hpp>
 
 #include <boost/numeric/odeint/stepper/taylor/tree_generator/tree_generator.hpp>
-#include <boost/numeric/odeint/stepper/taylor/arguments.hpp>
+#include <boost/numeric/odeint/stepper/taylor/placeholders.hpp>
 
 #include "evaluate.hpp"
 
 using namespace std;
 using namespace std::tr1;
 using namespace boost::numeric::odeint;
-using namespace boost::numeric::odeint::tree_nodes;
-using namespace boost::numeric::odeint::tree_generators;
+using namespace boost::numeric::odeint::taylor_detail;
+
 
 
 template< class Eq1 , class Eq2 >

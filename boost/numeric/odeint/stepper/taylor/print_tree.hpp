@@ -20,9 +20,7 @@
 namespace boost {
 namespace numeric {
 namespace odeint {
-
-
-namespace tree_nodes {
+namespace taylor_detail {
 
 
 struct print_tree
@@ -44,10 +42,7 @@ struct print_tree
 
 
 
-} // namespace tree_nodes
-
-
-
+} // namespace taylor_detail
 } // namespace odeint
 } // namespace numeric
 } // namespace boost

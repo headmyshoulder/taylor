@@ -33,13 +33,10 @@
 namespace boost {
 namespace numeric {
 namespace odeint {
+namespace taylor_detail {
 
-
-namespace tree_generators {
 
 namespace proto = boost::proto;
-
-
 
 
 struct tree_generator :
@@ -54,10 +51,7 @@ struct tree_generator :
 	> { };
 
 
-} // namespace tree_generators
-
-
-
+} // namespace taylor_detail
 } // namespace odeint
 } // namespace numeric
 } // namespace boost

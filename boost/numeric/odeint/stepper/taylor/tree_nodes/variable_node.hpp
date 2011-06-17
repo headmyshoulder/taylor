@@ -19,9 +19,8 @@
 namespace boost {
 namespace numeric {
 namespace odeint {
+namespace taylor_detail {
 
-
-namespace tree_nodes {
 
 
 template< class Value = double >
@@ -54,10 +53,7 @@ void print_node( std::ostream &out , const variable_node< Value > &node , size_t
 
 
 
-} // namespace tree_nodes
-
-
-
+} // namespace taylor_detail
 } // namespace odeint
 } // namespace numeric
 } // namespace boost

@@ -25,7 +25,7 @@
 
 using namespace std;
 using namespace std::tr1;
-using namespace boost::numeric::odeint::tree_nodes;
+using namespace boost::numeric::odeint::taylor_detail;
 
 
 

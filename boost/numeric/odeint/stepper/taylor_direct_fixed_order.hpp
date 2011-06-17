@@ -88,7 +88,7 @@ public:
 		namespace mpl = boost::mpl;
 		namespace fusion = boost::fusion;
 		namespace proto = boost::proto;
-		using namespace tree_generators;
+		using namespace taylor_detail;
 
 		BOOST_STATIC_ASSERT(( boost::fusion::traits::is_sequence< System >::value ));
 		BOOST_STATIC_ASSERT(( size_t( boost::fusion::result_of::size< System >::value ) == dim ));
@@ -97,7 +97,7 @@ public:
 		typedef typename fusion::result_of::as_vector< transformed_type const >::type tree_type;
 		tree_type trees = fusion::as_vector( fusion::transform( sys , tree_generator() ) );
 
-		fusion::for_each( trees , tree_nodes::print_tree( std::cout , 0 ) );
+		fusion::for_each( trees , print_tree( std::cout , 0 ) );
 
 		fusion::for_each( sys , proto::functional::display_expr() );
 

@@ -17,33 +17,20 @@
 #include <ostream>
 
 #include <boost/proto/proto.hpp>
-
 #include <boost/mpl/size_t.hpp>
 
-
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes/variable_node.hpp>
-
 
 
 namespace boost {
 namespace numeric {
 namespace odeint {
-
-
-namespace tree_generators {
+namespace taylor_detail {
 
 namespace proto = boost::proto;
 namespace mpl = boost::mpl;
 
 template< typename I > struct placeholder : I {};
-
-template< typename I >
-std::ostream& operator<<( std::ostream &s , const placeholder< I > &p )
-{
-	s << "placeholder<" << I::value << ">";
-	return s;
-}
-
 
 template< typename Index >
 struct variable_transform : proto::transform< variable_transform< Index > >
@@ -51,7 +38,7 @@ struct variable_transform : proto::transform< variable_transform< Index > >
 	template< typename Expr , typename State , typename Data >
 	struct impl : proto::transform_impl< Expr , State , Data >
 	{
-		typedef typename tree_nodes::variable_node< double > result_type;
+		typedef variable_node< double > result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -71,6 +58,12 @@ struct variable_transform : proto::transform< variable_transform< Index > >
 template< typename Which >
 struct variable_generator : proto::when< proto::terminal< placeholder< Which > > , variable_transform< Which > > { };
 
+template< typename I >
+std::ostream& operator<<( std::ostream &s , const placeholder< I > &p )
+{
+	s << "placeholder<" << I::value << ">";
+	return s;
+}
 
 
 
@@ -78,10 +71,7 @@ struct variable_generator : proto::when< proto::terminal< placeholder< Which > >
 
 
 
-} // namespace tree_generators
-
-
-
+} // namespace taylor_detail
 } // namespace odeint
 } // namespace numeric
 } // namespace boost
