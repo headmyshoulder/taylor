@@ -29,6 +29,14 @@
 #include <boost/fusion/include/as_vector.hpp>
 #include <boost/fusion/include/at.hpp>
 
+// mpl includes
+#include <boost/mpl/for_each.hpp>
+#include <boost/mpl/range_c.hpp>
+
+// proto includes
+#include <boost/proto/proto.hpp>
+
+#include <boost/numeric/odeint/stepper/taylor/eval_derivs_direct.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_generator/tree_generator.hpp>
 #include <boost/numeric/odeint/stepper/taylor/print_tree.hpp>
 
@@ -97,15 +105,11 @@ public:
 		typedef typename fusion::result_of::as_vector< transformed_type const >::type tree_type;
 		tree_type trees = fusion::as_vector( fusion::transform( sys , tree_generator() ) );
 
-		fusion::for_each( trees , print_tree( std::cout , 0 ) );
-
-		fusion::for_each( sys , proto::functional::display_expr() );
-
+//		fusion::for_each( trees , print_tree( std::cout , 0 ) );
+//		fusion::for_each( sys , proto::functional::display_expr() );
 
 
-
-
-//		eval_derivs( sys , in , m_derivs , m_dt_fac );
+		eval_derivs( trees , in , m_derivs , m_dt_fac );
 
 		value_type max_error = 0.0;
 		for( size_t i=0 ; i<dim ; ++i )
@@ -132,6 +136,11 @@ public:
 	template< class System >
 	void eval_derivs( System sys , const state_type &in , derivs_type &der , value_type &dt_fac ) const
 	{
+		namespace mpl = boost::mpl;
+		namespace fusion = boost::fusion;
+		namespace proto = boost::proto;
+		using namespace taylor_detail;
+
 		const value_type min_error = 1.0e-19;
 		const value_type max_error = 1.0e19;
 		const value_type min_fac = 1.5;
@@ -139,38 +148,23 @@ public:
 
 		for( size_t i=0 ; i<order_value ; ++i )
 		{
-//			boost::mpl::for_each< boost::mpl::range_c< size_t , 0 , dim > >( make_eval_derivs( sys , in , der , dt_fac , i ) );
+			boost::mpl::for_each< boost::mpl::range_c< size_t , 0 , dim > >(
+					make_eval_derivs( sys , in , der , dt_fac , i )
+			);
 
-//			clog << i << tab << "Deriv : ";
-//			for( size_t j=0 ; j<dim ; ++j )
-//				clog << tab << der[i][j];
-//			clog << endl;
-
-			/*
-			 * OK # Fehler bestimmen
-			 * OK # Fehler grenzen pruefen
-			 * OK  # Falls ja
-			 *     OK # dt_fac aendern
-			 *     OK # schon berechnete Ableitungen skalieren
-			 */
 			while( true )
 			{
 				double err = 0.0;
 				for( size_t j=0 ; j<dim ; ++j ) err += std::abs( der[i][j] );
-//				clog << i;
-//				for( size_t j=0 ; j<dim ; ++j ) clog << tab << der[i][j];
-//				clog << tab << err << endl;
 
 				if( err < min_error )
 				{
-//					clog << i << tab << "min_error : " << err << tab << dt_fac << endl;
 					scale_derivs( der , i , min_fac );
 					dt_fac *= min_fac;
 					continue;
 				}
 				if( err > max_error )
 				{
-//					clog << i << tab << "max_error : " << err << tab << dt_fac << endl;
 					scale_derivs( der , i , max_fac );
 					dt_fac *= max_fac;
 					continue;
@@ -207,11 +201,15 @@ private:
 	value_type m_rel_error;
 	value_type m_abs_error;
 
+
+
+
+
 };
 
-}
-}
-}
+} // namespace odeint
+} // namespace numeric
+} // namespace boost
 
 
 #endif /* TAYLOR_DIRECT_FIXED_ORDER_HPP_ */
