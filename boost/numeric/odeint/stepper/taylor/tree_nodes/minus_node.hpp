@@ -26,8 +26,8 @@ namespace taylor_detail {
 template< class Left , class Right , class Value = double >
 struct minus_node : public binary_node< Left , Right , Value >
 {
-	minus_node( Left left , Right right )
-	: binary_node< Left , Right , Value >( left , right , "Minus" ) { }
+	minus_node( const Left &left , const Right &right )
+	: binary_node< Left , Right , Value >( left , right ) { }
 
 	template< class Derivs >
 	Value operator()( const Derivs &derivs , size_t which )
@@ -47,6 +47,13 @@ minus_node< Left , Right , Value > make_minus_node( const Left &left , const Rig
 {
 	return minus_node< Left , Right , Value >( left , right );
 }
+
+template< class Left , class Right , class Value >
+void print_node( std::ostream &out , const minus_node< Left , Right , Value > &node , size_t indent = 0 )
+{
+	print_binary_node( out , node , "Minus" , indent );
+}
+
 
 
 } // namespace taylor_detail

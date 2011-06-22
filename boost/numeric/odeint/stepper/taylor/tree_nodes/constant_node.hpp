@@ -26,7 +26,7 @@ namespace taylor_detail {
 template< class Value = double >
 struct constant_node
 {
-	constant_node( Value value )
+	constant_node( const Value &value )
 	: m_value( value ) { }
 
 	template< class Derivs >
@@ -36,11 +36,10 @@ struct constant_node
 	}
 
 	template< class State , class Derivs >
-	Value operator()( const State &x , const Derivs &derivs , size_t which )
+	Value operator()( const State &x , const Derivs &derivs , size_t which ) const
 	{
 		return ( which == 0 ) ? m_value : 0.0;
 	}
-
 
 	Value m_value;
 };

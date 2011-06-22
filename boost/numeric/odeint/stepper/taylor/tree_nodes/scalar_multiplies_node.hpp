@@ -26,8 +26,8 @@ namespace taylor_detail {
 template< class Child , class Value = double >
 struct scalar_multiplies_node : unary_node< Child , Value >
 {
-	scalar_multiplies_node( Child child , Value factor )
-	: unary_node< Child , Value >( child , "Scalar multiplies" ) , m_factor( factor ) { }
+	scalar_multiplies_node( const Child &child , const Value &factor )
+	: unary_node< Child , Value >( child ) , m_factor( factor ) { }
 
 	template< class Derivs >
 	Value operator()( const Derivs &derivs , size_t which )
@@ -54,7 +54,7 @@ template< class Child , class Value >
 void print_node( std::ostream &out , const scalar_multiplies_node< Child , Value > &node , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
-	out << node.m_name << " ( " << node.m_factor << " ,\n";
+	out << "Scalar multiplies" << " ( " << node.m_factor << " ,\n";
 	print_node( out , node.m_child , indent + 1 );
 	out << "\n";
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";

@@ -26,20 +26,19 @@ namespace taylor_detail {
 template< class Left , class Right , class Value = double >
 struct binary_node
 {
-	binary_node( Left left , Right right , const std::string &name = std::string( "" ) )
-	: m_left( left ) , m_right( right ) , m_name( name ) { }
+	binary_node( const Left &left , const Right &right )
+	: m_left( left ) , m_right( right ) { }
 
 	Left m_left;
 	Right m_right;
-	const std::string m_name;
 };
 
 
 template< class Left , class Right , class Value >
-void print_node( std::ostream &out , const binary_node< Left , Right , Value > &node , size_t indent = 0 )
+void print_binary_node( std::ostream &out , const binary_node< Left , Right , Value > &node , const std::string name = "" , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
-	out << node.m_name << " (\n";
+	out << name << " (\n";
 	print_node( out , node.m_left , indent + 1 );
 	out << " ,\n";
 	print_node( out , node.m_right , indent + 1 );

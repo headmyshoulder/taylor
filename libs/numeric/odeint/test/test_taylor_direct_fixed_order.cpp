@@ -70,7 +70,7 @@ int main( int argc , char **argv )
 
 //	ofstream fout( "lorenz.dat" );
 	size_t count = 0;
-	while( t < 5000.0 )
+	while( t < 50000.0 )
 	{
 		stepper.try_step(
 				fusion::make_vector

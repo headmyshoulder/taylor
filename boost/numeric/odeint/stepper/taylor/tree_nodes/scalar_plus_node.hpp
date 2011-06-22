@@ -26,7 +26,7 @@ namespace taylor_detail {
 template< class Child , class Value = double >
 struct scalar_plus_node : binary_node< Child , Value >
 {
-	scalar_plus_node( Child child , Value summand )
+	scalar_plus_node( const Child &child , const Value &summand )
 	: unary_node< Child , Value >( child , "Scalar plus" ) , m_summand( summand ) { }
 
 	template< class Derivs >
@@ -54,12 +54,14 @@ template< class Child , class Value >
 void print_node( std::ostream &out , const scalar_plus_node< Child , Value > &node , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
-	out << node.m_name << " ( " << node.m_summand << " ,\n";
+	out << "Scalar plus" << " ( " << node.m_summand << " ,\n";
 	print_node( out , node.m_child , indent + 1 );
 	out << "\n";
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
 	out << ")";
 }
+
+
 
 
 

@@ -28,19 +28,18 @@ namespace taylor_detail {
 template< class Child , class Value = double >
 struct unary_node
 {
-	unary_node( const Child &child , const std::string &name = std::string( "" ) )
-	: m_child( child ) , m_name( name ) { }
+	unary_node( const Child &child )
+	: m_child( child ) { }
 
 	Child m_child;
-	const std::string m_name;
 };
 
 
 template< class Child , class Value >
-void print_node( std::ostream &out , const unary_node< Child , Value > &node , size_t indent = 0 )
+void print_unary_node( std::ostream &out , const unary_node< Child , Value > &node , const std::string name = "" , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
-	out << node.m_name << " (\n";
+	out << name << " (\n";
 	print_node( out , node.m_child , indent + 1 );
 	out << "\n";
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";

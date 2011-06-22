@@ -26,8 +26,8 @@ namespace taylor_detail {
 template< class Left , class Right , class Value = double >
 struct multiplies_node : binary_node< Left , Right , Value >
 {
-	multiplies_node( Left left , Right right )
-	: binary_node< Left , Right , Value >( left , right , "Multiplies" ) { }
+	multiplies_node( const Left &left , const Right &right )
+	: binary_node< Left , Right , Value >( left , right ) { }
 
 	template< class Derivs >
 	Value operator()( const Derivs &derivs , size_t which )
@@ -57,6 +57,12 @@ template< class Value , class Left , class Right >
 multiplies_node< Left , Right , Value > make_multiplies_node( const Left &left , const Right &right )
 {
 	return multiplies_node< Left , Right , Value >( left , right );
+}
+
+template< class Left , class Right , class Value >
+void print_node( std::ostream &out , const multiplies_node< Left , Right , Value > &node , size_t indent = 0 )
+{
+	print_binary_node( out , node , "Mulitplies" , indent );
 }
 
 
