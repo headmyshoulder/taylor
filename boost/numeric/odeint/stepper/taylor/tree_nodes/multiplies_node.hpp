@@ -30,7 +30,7 @@ struct multiplies_node : binary_node< Left , Right , Value >
 	: binary_node< Left , Right , Value >( left , right , "Multiplies" ) { }
 
 	template< class Derivs >
-	Value operator()( Derivs &derivs , size_t which )
+	Value operator()( const Derivs &derivs , size_t which )
 	{
 		Value result = Value( 0.0 );
 		for( size_t i=0 ; i<=which ; ++i )
@@ -39,6 +39,18 @@ struct multiplies_node : binary_node< Left , Right , Value >
 		}
 		return result;
 	}
+
+	template< class State , class Derivs >
+	Value operator()( const State &x , const Derivs &derivs , size_t which )
+	{
+		Value result = Value( 0.0 );
+		for( size_t i=0 ; i<=which ; ++i )
+		{
+			result += m_left( x , derivs , i ) * m_right( x , derivs , which - i );
+		}
+		return result;
+	}
+
 };
 
 template< class Value , class Left , class Right >

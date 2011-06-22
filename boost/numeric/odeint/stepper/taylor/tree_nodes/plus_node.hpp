@@ -30,10 +30,17 @@ struct plus_node : binary_node< Left , Right , Value >
 	: binary_node< Left , Right , Value >( left , right , "Plus" ) { }
 
 	template< class Derivs >
-	Value operator()( Derivs &derivs , size_t which ) const
+	Value operator()( const Derivs &derivs , size_t which )
 	{
 		return m_left( derivs , which ) + m_right( derivs , which );
 	}
+
+	template< class State , class Derivs >
+	Value operator()( const State &x , const Derivs &derivs , size_t which )
+	{
+		return m_left( x , derivs , which ) + m_right( x , derivs , which );
+	}
+
 };
 
 template< class Value , class Left , class Right >

@@ -16,6 +16,8 @@
 
 #include <boost/fusion/include/at.hpp>
 
+
+
 namespace boost {
 namespace numeric {
 namespace odeint {
@@ -30,19 +32,25 @@ struct eval_derivs
 	typedef boost::array< State , Order > deriv_type;
 
 	System m_sys;
+	const state_type &m_x;
+	deriv_type &m_derivs;
+	double m_dt_fac;
+	size_t m_which;
+
+
 
 	eval_derivs( System sys , const State &x , deriv_type &derivs , double &dt_fac , size_t which )
-	: m_sys( sys ) { }
+	: m_sys( sys ) , m_x( x ) , m_derivs( derivs ) , m_dt_fac( dt_fac ) , m_which( which ) { }
 
 	template< class Index >
 	void operator()( Index )
 	{
 		typedef typename fusion::result_of::at< System , Index >::type expr_type;
 
-	// 	expr_type expr = boost::fusion::at< Index >( m_sys );
+	 	expr_type expr = boost::fusion::at< Index >( m_sys );
 
-//		double deriv = taylor_transform()( expr , 0.0 , m_data );
-//		m_data.derivs[ m_data.which ][ Index::value ] = m_data.dt_fac / double( m_data.which + 1 ) * deriv;
+	 	double deriv = expr( m_x , m_derivs , m_which );
+	 	m_derivs[ m_which ][ Index::value ] = m_dt_fac / double( m_which + 1 ) * deriv;
 	}
 };
 

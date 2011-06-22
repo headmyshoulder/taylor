@@ -30,10 +30,17 @@ struct constant_node
 	: m_value( value ) { }
 
 	template< class Derivs >
-	Value operator()( Derivs &derivs , size_t which ) const
+	Value operator()( const Derivs &derivs , size_t which ) const
 	{
 		return ( which == 0 ) ? m_value : 0.0;
 	}
+
+	template< class State , class Derivs >
+	Value operator()( const State &x , const Derivs &derivs , size_t which )
+	{
+		return ( which == 0 ) ? m_value : 0.0;
+	}
+
 
 	Value m_value;
 };

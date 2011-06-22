@@ -32,11 +32,19 @@ struct sin_node : public unary_node< Child , Value >
 	: unary_node< Child , Value >( child , "Sin" ) { }
 
 	template< class Derivs >
-	Value operator()( Derivs &derivs , size_t which ) const
+	Value operator()( const Derivs &derivs , size_t which )
 	{
 		// assert( false );
 		return 0.0;
 	}
+
+	template< class State , class Derivs >
+	Value operator()( const State &x , const Derivs &derivs , size_t which )
+	{
+		// assert( false );
+		return 0.0;
+	}
+
 };
 
 template< class Value , class Child >

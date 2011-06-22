@@ -30,10 +30,17 @@ struct variable_node
 	: m_index( index ) { }
 
 	template< class Derivs >
-	Value operator()( Derivs &derivs , size_t which ) const
+	Value operator()( const Derivs &derivs , size_t which ) const
 	{
 		return derivs[which][m_index];
 	}
+
+	template< class State , class Derivs >
+	Value operator()( const State &x , const Derivs &derivs , size_t which ) const
+	{
+		return ( which == 0 ) ? x[ m_index ] : derivs[ which - 1 ][ m_index ];
+	}
+
 
 	size_t m_index;
 };

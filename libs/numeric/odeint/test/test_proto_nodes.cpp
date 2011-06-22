@@ -53,7 +53,7 @@ int main( int argc , char **argv )
 
 
 	cout << endl << endl;
-	evaluate_proto( 1.0 + arg2 , sin( arg1 * arg2 ) );
+	evaluate_proto( 1.0 + arg2 , 2.0 * sin( arg1 * arg2 ) );
 
 
 	return 0;

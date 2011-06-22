@@ -58,33 +58,33 @@ int main( int argc , char **argv )
 	double t = 0.0;
 	double dt = 1.0;
 
-	stepper.try_step(
-			fusion::make_vector
-			(
-					sigma * ( arg2 - arg1 ) ,
-					R * arg1 - arg2 - arg1 * arg3 ,
-					arg1 * arg2 - b * arg3
-			) ,
-			x , t , dt );
+//	stepper.try_step(
+//			fusion::make_vector
+//			(
+//					sigma * ( arg2 - arg1 ) ,
+//					R * arg1 - arg2 - arg1 * arg3 ,
+//					arg1 * arg2 - b * arg3
+//			) ,
+//			x , t , dt );
 
 
 //	ofstream fout( "lorenz.dat" );
-//	size_t count = 0;
-//	while( t < 5000.0 )
-//	{
-//		stepper.try_step(
-//				fusion::make_vector
-//				(
-//						sigma * ( arg2 - arg1 ) ,
-//						R * arg1 - arg2 - arg1 * arg3 ,
-//						arg1 * arg2 - b * arg3
-//				) ,
-//				x , t , dt );
-//
+	size_t count = 0;
+	while( t < 5000.0 )
+	{
+		stepper.try_step(
+				fusion::make_vector
+				(
+						sigma * ( arg2 - arg1 ) ,
+						R * arg1 - arg2 - arg1 * arg3 ,
+						arg1 * arg2 - b * arg3
+				) ,
+				x , t , dt );
+
 //		fout << t << "\t" << x << "\t" << dt << endl;
-//		++count;
-//	}
-//	clog << count << endl;
+		++count;
+	}
+	clog << count << endl;
 
 	return 0;
 }
