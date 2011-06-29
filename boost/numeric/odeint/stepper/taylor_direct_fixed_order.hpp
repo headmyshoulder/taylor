@@ -82,16 +82,16 @@ public:
 
 
 	template< class System >
-	void try_step( System sys , state_type &x , time_type &t , time_type &dt )
+	void do_step( System sys , state_type &x , time_type &t , time_type &dt )
 	{
 		BOOST_STATIC_ASSERT(( boost::fusion::traits::is_sequence< System >::value ));
 		BOOST_STATIC_ASSERT(( size_t( boost::fusion::result_of::size< System >::value ) == dim ));
 
-		try_step( sys , x , t , x , dt );
+		do_step( sys , x , t , x , dt );
 	}
 
 	template< class System >
-	void try_step( System sys , const state_type &in , time_type &t , state_type &out , time_type &dt )
+	void do_step( System sys , const state_type &in , time_type &t , state_type &out , time_type &dt )
 	{
 		namespace mpl = boost::mpl;
 		namespace fusion = boost::fusion;

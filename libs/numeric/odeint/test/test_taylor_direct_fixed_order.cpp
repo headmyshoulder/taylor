@@ -72,7 +72,7 @@ int main( int argc , char **argv )
 	size_t count = 0;
 	while( t < 50000.0 )
 	{
-		stepper.try_step(
+		stepper.do_step(
 				fusion::make_vector
 				(
 						sigma * ( arg2 - arg1 ) ,
