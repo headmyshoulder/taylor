@@ -16,6 +16,7 @@
 
 
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes/multiplies_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/multiplies_optimized_node.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes/scalar_multiplies_node.hpp>
 
 #include <boost/proto/proto.hpp>
@@ -41,7 +42,7 @@ struct multiplies_transform : proto::transform< multiplies_transform< Grammar > 
 		typedef typename boost::result_of< Grammar( left_type ) >::type left_result;
 		typedef typename boost::result_of< Grammar( right_type ) >::type right_result;
 
-		typedef multiplies_node< left_result , right_result > result_type;
+		typedef multiplies_optimized_node< left_result , right_result > result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
