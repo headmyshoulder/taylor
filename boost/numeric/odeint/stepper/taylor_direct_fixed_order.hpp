@@ -15,7 +15,6 @@
 #define TAYLOR_DIRECT_FIXED_ORDER_HPP_
 
 #include <cmath>
-#include <iostream>
 
 #include <boost/array.hpp>
 #include <boost/bind.hpp>
@@ -118,7 +117,6 @@ public:
 					( m_rel_error * std::abs( in[i] ) + m_abs_error );
 			max_error = std::max( error , max_error );
 		}
-
 		dt = pow( 1.0 / max_error , 1.0 / value_type( order_value ) );
 
 		for( size_t i=0 ; i<dim ; ++i )
