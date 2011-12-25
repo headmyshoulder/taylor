@@ -41,6 +41,13 @@ struct scalar_multiplies_node : unary_node< Child , Value >
 		return m_child( x , derivs , which ) * m_factor;
 	}
 
+
+	template< class Which , class State , class Derivs >
+	Value eval( Which , const State &x , const Derivs &derivs )
+	{
+	    return this->m_child.eval< Which >( x , derivs ) * m_factor;
+	}
+
 	Value m_factor;
 };
 

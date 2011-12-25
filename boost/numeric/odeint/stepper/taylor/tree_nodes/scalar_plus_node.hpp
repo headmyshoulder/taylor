@@ -24,7 +24,7 @@ namespace taylor_detail {
 
 
 template< class Child , class Value = double >
-struct scalar_plus_node : binary_node< Child , Value >
+struct scalar_plus_node : unary_node< Child , Value >
 {
 	scalar_plus_node( const Child &child , const Value &summand )
 	: unary_node< Child , Value >( child , "Scalar plus" ) , m_summand( summand ) { }
@@ -40,6 +40,14 @@ struct scalar_plus_node : binary_node< Child , Value >
 	{
 		return ( which == 0 ) ? m_summand + m_child( x , derivs , which ) : m_child( x , derivs , which ) ;
 	}
+
+	template< class Which , class State , class Derivs , size_t Which >
+	Value eval( const State &x , const Derivs &derivs )
+    {
+	    const size_t which = Which::value;
+        return ( which == 0 ) ? m_summand + this->m_child.eval< Which >( x , derivs ) : this->m_child.eval< Which >( x , derivs ) ;
+    }
+
 
 	Value m_summand;
 };

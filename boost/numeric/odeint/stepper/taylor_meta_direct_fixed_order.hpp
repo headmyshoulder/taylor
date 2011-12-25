@@ -1,5 +1,5 @@
 /*
- * taylor_direct_fixed_order.hpp
+ * taylor_meta_direct_fixed_order.hpp
  *
  *  Created on: Jun 16, 2011
  *      Author: karsten
@@ -11,8 +11,8 @@
  * http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#ifndef TAYLOR_DIRECT_FIXED_ORDER_HPP_
-#define TAYLOR_DIRECT_FIXED_ORDER_HPP_
+#ifndef TAYLOR_META_DIRECT_FIXED_ORDER_HPP_
+#define TAYLOR_META_DIRECT_FIXED_ORDER_HPP_
 
 #include <cmath>
 
@@ -241,4 +241,4 @@ private:
 } // namespace boost
 
 
-#endif /* TAYLOR_DIRECT_FIXED_ORDER_HPP_ */
+#endif /* TAYLOR_META_DIRECT_FIXED_ORDER_HPP_ */

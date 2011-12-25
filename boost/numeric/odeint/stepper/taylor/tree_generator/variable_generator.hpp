@@ -30,7 +30,9 @@ namespace taylor_detail {
 namespace proto = boost::proto;
 namespace mpl = boost::mpl;
 
+
 template< typename I > struct placeholder : I {};
+
 
 template< typename Index >
 struct variable_transform : proto::transform< variable_transform< Index > >
@@ -38,19 +40,17 @@ struct variable_transform : proto::transform< variable_transform< Index > >
 	template< typename Expr , typename State , typename Data >
 	struct impl : proto::transform_impl< Expr , State , Data >
 	{
-		typedef variable_node< double > result_type;
+        typedef typename impl::expr expr_type;
+        typedef typename expr_type::proto_args args_type;
+        typedef typename args_type::child0 index_type;
+		typedef variable_node< index_type::value , double > result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
 				typename impl::state_param state ,
 				typename impl::data_param data ) const
 		{
-			typedef typename impl::expr expr_type;
-			typedef typename expr_type::proto_args args_type;
-			typedef typename args_type::child0 index_type;
-			const size_t index = index_type::value;
-
-			return result_type( index );
+			return result_type();
 		}
 	};
 };

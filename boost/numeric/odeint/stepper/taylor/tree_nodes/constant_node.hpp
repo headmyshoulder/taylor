@@ -41,7 +41,7 @@ struct constant_node
 		return ( which == 0 ) ? m_value : 0.0;
 	}
 
-	Value m_value;
+	const Value &m_value;
 };
 
 

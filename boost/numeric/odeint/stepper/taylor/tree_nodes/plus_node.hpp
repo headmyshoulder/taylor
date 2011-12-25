@@ -41,6 +41,11 @@ struct plus_node : binary_node< Left , Right , Value >
 		return m_left( x , derivs , which ) + m_right( x , derivs , which );
 	}
 
+	template< class Which , class State , class Derivs >
+	Value eval( const State &x , const Derivs &derivs )
+    {
+	    return this->m_left.eval< Which >( x , derivs ) + this->m_right.eval< Which >( x , derivs );
+    }
 };
 
 template< class Value , class Left , class Right >

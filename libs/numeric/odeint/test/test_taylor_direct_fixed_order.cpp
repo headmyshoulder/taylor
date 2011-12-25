@@ -15,6 +15,7 @@
 #include <fstream>
 
 #include <boost/numeric/odeint/stepper/taylor_direct_fixed_order.hpp>
+// #include <boost/numeric/odeint/stepper/taylor_direct_fixed_order_static.hpp>
 #include <boost/numeric/odeint/stepper/taylor/placeholders.hpp>
 
 #include <boost/fusion/include/make_vector.hpp>
@@ -27,6 +28,7 @@ std::ostream& operator<<( std::ostream& out , const boost::array< T , N > &x )
 	return out;
 }
 
+// typedef boost::numeric::odeint::taylor_direct_fixed_order_static< 25 , 3 > taylor_type;
 typedef boost::numeric::odeint::taylor_direct_fixed_order< 25 , 3 > taylor_type;
 typedef taylor_type::state_type state_type;
 typedef taylor_type::derivs_type derivs_type;
@@ -51,7 +53,7 @@ int main( int argc , char **argv )
 {
 	cout.precision( 14 );
 
-	taylor_type stepper;
+	taylor_type stepper( 1.0e-17 , 1.0e-35 );
 
 	state_type x = {{ 10.0 , 10.0 , 10.0 }} ;
 
@@ -70,7 +72,7 @@ int main( int argc , char **argv )
 
 //	ofstream fout( "lorenz.dat" );
 	size_t count = 0;
-	while( t < 50000.0 )
+	while( t < 100000.0 )
 	{
 		stepper.do_step(
 				fusion::make_vector
@@ -78,6 +80,7 @@ int main( int argc , char **argv )
 						sigma * ( arg2 - arg1 ) ,
 						R * arg1 - arg2 - arg1 * arg3 ,
 						arg1 * arg2 - b * arg3
+//				        arg1 , arg2 , arg3
 				) ,
 				x , t , dt );
 

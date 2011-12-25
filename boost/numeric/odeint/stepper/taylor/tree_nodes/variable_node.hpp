@@ -23,16 +23,15 @@ namespace taylor_detail {
 
 
 
-template< class Value = double >
+template< size_t Index , class Value = double >
 struct variable_node
 {
-	variable_node( size_t index )
-	: m_index( index ) { }
+    variable_node( void ) : m_index( Index ) { }
 
 	template< class Derivs >
 	Value operator()( const Derivs &derivs , size_t which ) const
 	{
-		return derivs[which][m_index];
+		return derivs[which][Index];
 	}
 
 	template< class State , class Derivs >
@@ -42,20 +41,38 @@ struct variable_node
 	}
 
 
-	size_t m_index;
+	template< typename Which , class State , class Derivs >
+	Value eval( Which , const State &x , const Derivs &derivs ) const
+    {
+	    typedef typename Which::type which_type;
+	    const size_t which = which_type::value;
+        return ( which == 0 ) ? x[ Index ] : derivs[ which - 1 ][ Index ];
+    }
+
+
+//	template< class Which , class State , class Derivs >
+//	Value operator()( Which , const State &x , const Derivs &derivs )
+//	{
+//	    typedef typename Which::type which_type;
+//	    const size_t which = which_type::value;
+//	    return ( which == 0 ) ? x[ m_index ] : derivs[ which - 1 ][ m_index ];
+//	}
+
+	size_t m_index ;
+
 };
 
-template< class Value >
-variable_node< Value > make_variable_node( size_t index )
+template< size_t Index , class Value >
+variable_node< Index , Value > make_variable_node( void )
 {
-	return variable_node< Value >( index );
+	return variable_node< Index , Value >();
 }
 
-template< class Value >
-void print_node( std::ostream &out , const variable_node< Value > &node , size_t indent = 0 )
+template< size_t Index , class Value >
+void print_node( std::ostream &out , const variable_node< Index , Value > &node , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
-	out << "Variable ( " << node.m_index << " )";
+	out << "Variable ( " << Index << " )";
 }
 
 
