@@ -34,8 +34,8 @@ namespace mpl = boost::mpl;
 template< typename I > struct placeholder : I {};
 
 
-template< typename Index >
-struct variable_transform : proto::transform< variable_transform< Index > >
+template< typename Index , typename NodeFactory >
+struct variable_transform : proto::transform< variable_transform< Index , NodeFactory > >
 {
 	template< typename Expr , typename State , typename Data >
 	struct impl : proto::transform_impl< Expr , State , Data >
@@ -43,7 +43,9 @@ struct variable_transform : proto::transform< variable_transform< Index > >
         typedef typename impl::expr expr_type;
         typedef typename expr_type::proto_args args_type;
         typedef typename args_type::child0 index_type;
-		typedef variable_node< index_type::value , double > result_type;
+
+        typedef typename NodeFactory::template variable< index_type::value >::type result_type;
+		// typedef variable_node< index_type::value , double > result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -55,8 +57,8 @@ struct variable_transform : proto::transform< variable_transform< Index > >
 	};
 };
 
-template< typename Which >
-struct variable_generator : proto::when< proto::terminal< placeholder< Which > > , variable_transform< Which > > { };
+template< typename Which , typename NodeFactory >
+struct variable_generator : proto::when< proto::terminal< placeholder< Which > > , variable_transform< Which , NodeFactory > > { };
 
 template< typename I >
 std::ostream& operator<<( std::ostream &s , const placeholder< I > &p )

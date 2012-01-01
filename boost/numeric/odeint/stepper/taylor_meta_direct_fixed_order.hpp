@@ -37,6 +37,7 @@
 
 #include <boost/numeric/odeint/stepper/taylor/eval_derivs_direct.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_generator/tree_generator.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/node_factory.hpp>
 #include <boost/numeric/odeint/stepper/taylor/print_tree.hpp>
 
 
@@ -110,7 +111,7 @@ public:
     	stepper( const System &sys , value_type rel_error , value_type abs_error )
     	: m_derivs() , m_dt_fac( value_type( 1.0 ) ) ,
     	  m_rel_error( rel_error ) , m_abs_error( abs_error ) ,
-    	  m_trees( boost::fusion::as_vector( boost::fusion::transform( sys , taylor_detail::tree_generator() ) ) )
+    	  m_trees( boost::fusion::as_vector( boost::fusion::transform( sys , taylor_detail::tree_generator< taylor_detail::node_v1_factory >() ) ) )
     	{
     		BOOST_STATIC_ASSERT(( boost::fusion::traits::is_sequence< System >::value ));
     		BOOST_STATIC_ASSERT(( size_t( boost::fusion::result_of::size< System >::value ) == dim ));
@@ -213,7 +214,7 @@ public:
 
     private:
 
-    	typedef typename boost::fusion::result_of::transform< const System , taylor_detail::tree_generator >::type transformed_type;
+    	typedef typename boost::fusion::result_of::transform< const System , taylor_detail::tree_generator< taylor_detail::node_v1_factory > >::type transformed_type;
     	typedef typename boost::fusion::result_of::as_vector< transformed_type const >::type tree_type;
 
 

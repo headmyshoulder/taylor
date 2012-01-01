@@ -42,7 +42,7 @@ struct minus_transform : proto::transform< minus_transform< Grammar , NodeFactor
 		typedef typename boost::result_of< Grammar( left_type ) >::type left_result;
 		typedef typename boost::result_of< Grammar( right_type ) >::type right_result;
 
-		typedef typename NodeFactory::template minus_factory< left_result , right_result >::type result_type;
+		typedef typename NodeFactory::template minus< left_result , right_result >::type result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,

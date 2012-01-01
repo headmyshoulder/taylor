@@ -17,11 +17,7 @@
 
 #include <boost/proto/proto.hpp>
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/constant_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/variable_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/plus_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/multiplies_node.hpp>
-
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/node_factory.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_generator/tree_generator.hpp>
 #include <boost/numeric/odeint/stepper/taylor/placeholders.hpp>
 
@@ -39,7 +35,7 @@ void evaluate_proto( const Eq1 &eq1 , const Eq2 &eq2 )
 {
 	boost::proto::display_expr( eq1 );
 	boost::proto::display_expr( eq2 );
-	evaluate( tree_generator()( eq1 ) , tree_generator()( eq2 ) );
+	evaluate( tree_generator< node_v1_factory >()( eq1 ) , tree_generator< node_v1_factory >()( eq2 ) );
 }
 
 
@@ -47,8 +43,8 @@ void evaluate_proto( const Eq1 &eq1 , const Eq2 &eq2 )
 int main( int argc , char **argv )
 {
 	evaluate(
-		make_plus_node< double >( make_constant_node< double >( 1.0 ) , make_variable_node< double >( 1 ) ) ,
-		make_sin< double >( make_multiplies_node< double >( make_variable_node< double >( 0 ) , make_variable_node< double >( 1 ) ) )
+		make_plus_node< double >( make_constant_node< double >( 1.0 ) , make_variable_node< 1 , double >( ) ) ,
+		make_sin< double >( make_multiplies_node< double >( make_variable_node< 0 , double >() , make_variable_node< 1 , double >() ) )
 	);
 
 

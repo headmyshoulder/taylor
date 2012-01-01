@@ -42,12 +42,12 @@ template< class NodeFactory >
 struct tree_generator :
 	proto::or_
 	<
-		variable_generator< proto::_ > ,
+		variable_generator< proto::_ , NodeFactory > ,
 		constant_generator< NodeFactory > ,
-		plus_generator< tree_generator< NodeFactory > > ,
+		plus_generator< tree_generator< NodeFactory > , NodeFactory > ,
 		minus_generator< tree_generator< NodeFactory > , NodeFactory > ,
 		multiplies_generator< tree_generator< NodeFactory > , NodeFactory > ,
-		unary_generator< tree_generator< NodeFactory > >
+		unary_generator< tree_generator< NodeFactory > , NodeFactory >
 	> { };
 
 

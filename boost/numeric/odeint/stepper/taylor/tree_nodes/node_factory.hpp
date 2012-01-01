@@ -15,6 +15,7 @@
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes/scalar_plus_node.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes/variable_node.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes/constant_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/sin_node.hpp>
 
 
 namespace boost {
@@ -26,53 +27,86 @@ struct node_v1_factory
 {
     typedef double value_type;
 
-
-    template< class Left , class Right >
-    struct minus_factory
+    template< typename Left , typename Right >
+    struct minus
     {
         typedef minus_node< Left , Right , value_type > type;
     };
 
 
-    template< class Left , class Right >
-    struct plus_factory
+    template< typename Left , typename Right >
+    struct plus
     {
         typedef plus_node< Left , Right , value_type > type;
     };
 
 
-    template< class Left , class Right >
-    struct multiplies_factory
+    template< typename Left , typename Right >
+    struct multiplies
     {
         typedef multiplies_node< Left , Right , value_type > type;
     };
 
 
-    template< class Child >
-    struct scalar_multiplies_factory
+    template< typename Child >
+    struct scalar_multiplies
     {
         typedef scalar_multiplies_node< Child , value_type > type;
     };
 
 
-    template< class Child >
-    struct scalar_plus_factory
+    template< typename Child >
+    struct scalar_plus
     {
         typedef scalar_plus_node< Child , value_type > type;
     };
 
 
-    struct constant_factory
+    struct constant
     {
         typedef constant_node< value_type > type;
     };
 
 
     template< size_t Index >
-    struct variable_factory
+    struct variable
     {
         typedef variable_node< Index , value_type > type;
     };
+
+
+    template< typename Child >
+    struct sin
+    {
+        typedef sin_node< Child > type;
+    };
+
+
+    template< typename Child >
+    struct cos
+    {
+        // ToDo : implement cos_node
+        typedef sin_node< Child > type;
+    };
+
+
+    template< typename Child >
+    struct exp
+    {
+        // ToDo : implement exp_node
+        typedef sin_node< Child > type;
+    };
+
+
+    template< typename Child >
+    struct log
+    {
+        // ToDo : implement log_node
+        typedef sin_node< Child > type;
+    };
+
+
+
 };
 
 

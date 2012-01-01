@@ -43,24 +43,24 @@ const cos_terminal::type cos = {{}};
 const exp_terminal::type exp = {{}};
 const log_terminal::type log = {{}};
 
-
+template< class NodeFactory >
 struct sin_op {
-	template< class Child > struct result { typedef sin_node< Child , double > type; };
+	template< class Child > struct result { typedef typename NodeFactory::template sin< Child >::type type; };
 };
 
+template< class NodeFactory >
 struct cos_op {
-	// ToDo : add cos node
-	template< class Child > struct result { typedef sin_node< Child , double > type; };
+    template< class Child > struct result { typedef typename NodeFactory::template cos< Child >::type type; };
 };
 
+template< class NodeFactory >
 struct exp_op {
-	// ToDo : add exp node
-	template< class Child > struct result { typedef sin_node< Child , double > type; };
+    template< class Child > struct result { typedef typename NodeFactory::template exp< Child >::type type; };
 };
 
+template< class NodeFactory >
 struct log_op {
-	// ToDo :: add sin node
-	template< class Child > struct result { typedef sin_node< Child , double > type; };
+    template< class Child > struct result { typedef typename NodeFactory::template log< Child >::type type; };
 };
 
 
@@ -89,12 +89,12 @@ struct unary_transform : proto::transform< unary_transform< Grammar , UnaryOp > 
 	};
 };
 
-template< typename Grammar >
+template< typename Grammar , typename NodeFactory >
 struct unary_generator : proto::or_<
-	proto::when< proto::function< sin_terminal , Grammar > , unary_transform< Grammar , sin_op > > ,
-	proto::when< proto::function< cos_terminal , Grammar > , unary_transform< Grammar , cos_op > > ,
-	proto::when< proto::function< exp_terminal , Grammar > , unary_transform< Grammar , exp_op > > ,
-	proto::when< proto::function< log_terminal , Grammar > , unary_transform< Grammar , log_op > >
+	proto::when< proto::function< sin_terminal , Grammar > , unary_transform< Grammar , sin_op< NodeFactory > > > ,
+	proto::when< proto::function< cos_terminal , Grammar > , unary_transform< Grammar , cos_op< NodeFactory > > > ,
+	proto::when< proto::function< exp_terminal , Grammar > , unary_transform< Grammar , exp_op< NodeFactory > > > ,
+	proto::when< proto::function< log_terminal , Grammar > , unary_transform< Grammar , log_op< NodeFactory > > >
 > { };
 
 

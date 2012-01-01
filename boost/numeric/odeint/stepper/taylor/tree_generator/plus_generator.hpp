@@ -26,8 +26,8 @@ namespace taylor_detail {
 namespace proto = boost::proto;
 
 
-template< typename Grammar >
-struct plus_transform : proto::transform< plus_transform< Grammar > >
+template< typename Grammar , typename NodeFactory >
+struct plus_transform : proto::transform< plus_transform< Grammar , NodeFactory > >
 {
 	template< typename Expr , typename State , typename Data >
 	struct impl : proto::transform_impl< Expr , State , Data >
@@ -40,7 +40,7 @@ struct plus_transform : proto::transform< plus_transform< Grammar > >
 		typedef typename boost::result_of< Grammar( left_type ) >::type left_result;
 		typedef typename boost::result_of< Grammar( right_type ) >::type right_result;
 
-		typedef plus_node< left_result , right_result > result_type;
+		typedef typename NodeFactory::template plus< left_result , right_result >::type result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -52,8 +52,8 @@ struct plus_transform : proto::transform< plus_transform< Grammar > >
 	};
 };
 
-template< typename Grammar >
-struct plus_generator : proto::when< proto::plus< Grammar , Grammar > , plus_transform< Grammar > > { };
+template< typename Grammar , typename NodeFactory >
+struct plus_generator : proto::when< proto::plus< Grammar , Grammar > , plus_transform< Grammar , NodeFactory > > { };
 
 
 

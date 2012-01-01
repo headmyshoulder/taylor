@@ -42,7 +42,7 @@ struct multiplies_transform : proto::transform< multiplies_transform< Grammar , 
 		typedef typename boost::result_of< Grammar( left_type ) >::type left_result;
 		typedef typename boost::result_of< Grammar( right_type ) >::type right_result;
 
-		typedef typename NodeFactory::template multiplies_factory< left_result , right_result >::type result_type;
+		typedef typename NodeFactory::template multiplies< left_result , right_result >::type result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -69,7 +69,7 @@ struct right_scalar_multiplies_transform : proto::transform< right_scalar_multip
 
 		typedef typename boost::result_of< Grammar( left_type ) >::type left_result;
 
-		typedef typename NodeFactory::template scalar_multiplies_factory< left_result >::type result_type;
+		typedef typename NodeFactory::template scalar_multiplies< left_result >::type result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -94,7 +94,7 @@ struct left_scalar_multiplies_transform : proto::transform< left_scalar_multipli
 
 		typedef typename boost::result_of< Grammar( right_type ) >::type right_result;
 
-		typedef typename NodeFactory::template scalar_multiplies_factory< right_result >::type result_type;
+		typedef typename NodeFactory::template scalar_multiplies< right_result >::type result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,

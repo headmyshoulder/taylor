@@ -35,7 +35,7 @@ struct constant_transform : proto::transform< constant_transform< NodeFactory > 
 	template< typename Expr , typename State , typename Data >
 	struct impl : proto::transform_impl< Expr , State , Data >
 	{
-		typedef typename NodeFactory::constant_factory::type result_type;
+		typedef typename NodeFactory::constant::type result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
