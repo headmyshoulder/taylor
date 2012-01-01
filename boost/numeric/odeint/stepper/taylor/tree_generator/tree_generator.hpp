@@ -38,16 +38,16 @@ namespace taylor_detail {
 
 namespace proto = boost::proto;
 
-
+template< class NodeFactory >
 struct tree_generator :
 	proto::or_
 	<
 		variable_generator< proto::_ > ,
-		constant_generator ,
-		plus_generator< tree_generator > ,
-		minus_generator< tree_generator > ,
-		multiplies_generator< tree_generator > ,
-		unary_generator< tree_generator >
+		constant_generator< NodeFactory > ,
+		plus_generator< tree_generator< NodeFactory > > ,
+		minus_generator< tree_generator< NodeFactory > , NodeFactory > ,
+		multiplies_generator< tree_generator< NodeFactory > , NodeFactory > ,
+		unary_generator< tree_generator< NodeFactory > >
 	> { };
 
 

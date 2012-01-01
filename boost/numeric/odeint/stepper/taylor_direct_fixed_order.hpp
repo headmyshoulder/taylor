@@ -37,6 +37,7 @@
 
 #include <boost/numeric/odeint/stepper/taylor/eval_derivs_direct.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_generator/tree_generator.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/node_factory.hpp>
 #include <boost/numeric/odeint/stepper/taylor/print_tree.hpp>
 
 
@@ -100,9 +101,9 @@ public:
 		BOOST_STATIC_ASSERT(( boost::fusion::traits::is_sequence< System >::value ));
 		BOOST_STATIC_ASSERT(( size_t( boost::fusion::result_of::size< System >::value ) == dim ));
 
-		typedef typename fusion::result_of::transform< const System , tree_generator >::type transformed_type;
+		typedef typename fusion::result_of::transform< const System , tree_generator< node_v1_factory > >::type transformed_type;
 		typedef typename fusion::result_of::as_vector< transformed_type const >::type tree_type;
-		tree_type trees = fusion::as_vector( fusion::transform( sys , tree_generator() ) );
+		tree_type trees = fusion::as_vector( fusion::transform( sys , tree_generator< node_v1_factory >() ) );
 
 //		fusion::for_each( trees , print_tree( std::cout , 0 ) );
 //		fusion::for_each( sys , proto::functional::display_expr() );

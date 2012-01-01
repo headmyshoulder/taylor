@@ -28,8 +28,8 @@ namespace taylor_detail {
 
 namespace proto = boost::proto;
 
-template< typename Grammar >
-struct multiplies_transform : proto::transform< multiplies_transform< Grammar > >
+template< typename Grammar , typename NodeFactory >
+struct multiplies_transform : proto::transform< multiplies_transform< Grammar , NodeFactory > >
 {
 	template< typename Expr , typename State , typename Data >
 	struct impl : proto::transform_impl< Expr , State , Data >
@@ -42,8 +42,7 @@ struct multiplies_transform : proto::transform< multiplies_transform< Grammar > 
 		typedef typename boost::result_of< Grammar( left_type ) >::type left_result;
 		typedef typename boost::result_of< Grammar( right_type ) >::type right_result;
 
-		typedef multiplies_node< left_result , right_result > result_type;
-//		typedef multiplies_optimized_node< left_result , right_result > result_type;
+		typedef typename NodeFactory::template multiplies_factory< left_result , right_result >::type result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -55,8 +54,10 @@ struct multiplies_transform : proto::transform< multiplies_transform< Grammar > 
 	};
 };
 
-template< typename Grammar >
-struct right_scalar_multiplies_transform : proto::transform< right_scalar_multiplies_transform< Grammar > >
+
+// hier gehts weiter
+template< typename Grammar , typename NodeFactory >
+struct right_scalar_multiplies_transform : proto::transform< right_scalar_multiplies_transform< Grammar , NodeFactory > >
 {
 	template< typename Expr , typename State , typename Data >
 	struct impl : proto::transform_impl< Expr , State , Data >
@@ -68,7 +69,7 @@ struct right_scalar_multiplies_transform : proto::transform< right_scalar_multip
 
 		typedef typename boost::result_of< Grammar( left_type ) >::type left_result;
 
-		typedef scalar_multiplies_node< left_result , double > result_type;
+		typedef typename NodeFactory::template scalar_multiplies_factory< left_result >::type result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -80,8 +81,8 @@ struct right_scalar_multiplies_transform : proto::transform< right_scalar_multip
 	};
 };
 
-template< typename Grammar >
-struct left_scalar_multiplies_transform : proto::transform< left_scalar_multiplies_transform< Grammar > >
+template< typename Grammar , typename NodeFactory >
+struct left_scalar_multiplies_transform : proto::transform< left_scalar_multiplies_transform< Grammar , NodeFactory > >
 {
 	template< typename Expr , typename State , typename Data >
 	struct impl : proto::transform_impl< Expr , State , Data >
@@ -93,7 +94,7 @@ struct left_scalar_multiplies_transform : proto::transform< left_scalar_multipli
 
 		typedef typename boost::result_of< Grammar( right_type ) >::type right_result;
 
-		typedef scalar_multiplies_node< right_result , double > result_type;
+		typedef typename NodeFactory::template scalar_multiplies_factory< right_result >::type result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -105,20 +106,20 @@ struct left_scalar_multiplies_transform : proto::transform< left_scalar_multipli
 	};
 };
 
-template< typename Grammar >
-struct pure_multiplies_generator : proto::when< proto::multiplies< Grammar , Grammar > , multiplies_transform< Grammar > > { };
+template< typename Grammar , typename NodeFactory >
+struct pure_multiplies_generator : proto::when< proto::multiplies< Grammar , Grammar > , multiplies_transform< Grammar , NodeFactory > > { };
 
-template< typename Grammar >
+template< typename Grammar , typename NodeFactory >
 struct scalar_multiplies_generator : proto::or_<
-	proto::when< proto::multiplies< Grammar , proto::terminal< double > > , right_scalar_multiplies_transform< Grammar > > ,
-	proto::when< proto::multiplies< proto::terminal< double > , Grammar > , left_scalar_multiplies_transform< Grammar > >
+	proto::when< proto::multiplies< Grammar , proto::terminal< double > > , right_scalar_multiplies_transform< Grammar , NodeFactory > > ,
+	proto::when< proto::multiplies< proto::terminal< double > , Grammar > , left_scalar_multiplies_transform< Grammar , NodeFactory > >
 > { };
 
 
-template< typename Grammar >
+template< typename Grammar , typename NodeFactory >
 struct multiplies_generator : proto::or_<
-		scalar_multiplies_generator< Grammar > ,
-		pure_multiplies_generator< Grammar >
+		scalar_multiplies_generator< Grammar , NodeFactory > ,
+		pure_multiplies_generator< Grammar , NodeFactory >
 	> { };
 
 

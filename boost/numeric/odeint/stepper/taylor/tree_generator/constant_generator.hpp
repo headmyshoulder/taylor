@@ -29,13 +29,13 @@ namespace taylor_detail {
 
 namespace proto = boost::proto;
 
-
-struct constant_transform : proto::transform< constant_transform >
+template< typename NodeFactory >
+struct constant_transform : proto::transform< constant_transform< NodeFactory > >
 {
 	template< typename Expr , typename State , typename Data >
 	struct impl : proto::transform_impl< Expr , State , Data >
 	{
-		typedef constant_node< double > result_type;
+		typedef typename NodeFactory::constant_factory::type result_type;
 
 		result_type operator ()(
 				typename impl::expr_param expr ,
@@ -47,7 +47,8 @@ struct constant_transform : proto::transform< constant_transform >
 	};
 };
 
-struct constant_generator : proto::when< proto::terminal< double > , constant_transform > { };
+template< typename NodeFactory >
+struct constant_generator : proto::when< proto::terminal< double > , constant_transform< NodeFactory > > { };
 
 
 

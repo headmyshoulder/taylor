@@ -8,13 +8,13 @@
 #ifndef NODE_FACTORY_HPP_
 #define NODE_FACTORY_HPP_
 
-#include <boost/numeric/odeint/taylor/tree_nodes/minus_node.hpp>
-#include <boost/numeric/odeint/taylor/tree_nodes/plus_node.hpp>
-#include <boost/numeric/odeint/taylor/tree_nodes/multiplies_node.hpp>
-#include <boost/numeric/odeint/taylor/tree_nodes/scalar_multiplies_node.hpp>
-#include <boost/numeric/odeint/taylor/tree_nodes/scalar_plus_node.hpp>
-#include <boost/numeric/odeint/taylor/tree_nodes/variable_node.hpp>
-#include <boost/numeric/odeint/taylor/tree_nodes/const_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/minus_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/plus_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/multiplies_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/scalar_multiplies_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/scalar_plus_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/variable_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes/constant_node.hpp>
 
 
 namespace boost {
@@ -40,11 +40,13 @@ struct node_v1_factory
         typedef plus_node< Left , Right , value_type > type;
     };
 
+
     template< class Left , class Right >
     struct multiplies_factory
     {
         typedef multiplies_node< Left , Right , value_type > type;
     };
+
 
     template< class Child >
     struct scalar_multiplies_factory
@@ -52,16 +54,19 @@ struct node_v1_factory
         typedef scalar_multiplies_node< Child , value_type > type;
     };
 
+
     template< class Child >
     struct scalar_plus_factory
     {
         typedef scalar_plus_node< Child , value_type > type;
     };
 
+
     struct constant_factory
     {
         typedef constant_node< value_type > type;
     };
+
 
     template< size_t Index >
     struct variable_factory
