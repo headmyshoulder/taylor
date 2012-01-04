@@ -14,7 +14,7 @@
 #ifndef MULTIPLIES_NODE_HPP_
 #define MULTIPLIES_NODE_HPP_
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/binary_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/binary_node.hpp>
 
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/range_c.hpp>

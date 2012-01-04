@@ -14,7 +14,7 @@
 #ifndef PLUS_NODE_HPP_
 #define PLUS_NODE_HPP_
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/binary_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/binary_node.hpp>
 
 namespace boost {
 namespace numeric {

@@ -14,7 +14,7 @@
 #ifndef SCALAR_PLUS_NODE_HPP_
 #define SCALAR_PLUS_NODE_HPP_
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/unary_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/unary_node.hpp>
 
 namespace boost {
 namespace numeric {
