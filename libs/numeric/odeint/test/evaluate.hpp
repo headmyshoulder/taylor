@@ -34,14 +34,14 @@ void evaluate( const Eq1 &_eq1 , const Eq2 &_eq2 )
 	typedef std::tr1::array< double , 2 > state_type;
 	typedef std::tr1::array< state_type , 10 > deriv_type;
 
-	deriv_type derivs;
-	derivs[0][0] = 0.25;
-	derivs[0][1] = 0.75;
+	state_type x = {{ 0.25 , 0.75 }};
 
-	for( size_t i=1 ; i<10 ; ++i )
+	deriv_type derivs;
+
+	for( size_t i=0 ; i<10 ; ++i )
 	{
-		derivs[i][0] = 1.0 / double( i ) * eq1( derivs , i - 1 );
-		derivs[i][1] = 1.0 / double( i ) * eq2( derivs , i - 1 );
+		derivs[i][0] = 1.0 / double( i + 1 ) * eq1( x , derivs , i );
+		derivs[i][1] = 1.0 / double( i + 1 ) * eq2( x , derivs , i );
 	}
 
 	for( size_t i=0 ; i<10 ; ++i )

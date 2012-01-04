@@ -20,7 +20,7 @@ namespace boost {
 namespace numeric {
 namespace odeint {
 namespace taylor_detail {
-
+namespace tree_nodes_v1 {
 
 
 template< size_t Index , class Value = double >
@@ -28,35 +28,11 @@ struct variable_node
 {
     variable_node( void ) : m_index( Index ) { }
 
-	template< class Derivs >
-	Value operator()( const Derivs &derivs , size_t which ) const
-	{
-		return derivs[which][Index];
-	}
-
 	template< class State , class Derivs >
 	Value operator()( const State &x , const Derivs &derivs , size_t which ) const
 	{
 		return ( which == 0 ) ? x[ m_index ] : derivs[ which - 1 ][ m_index ];
 	}
-
-
-	template< typename Which , class State , class Derivs >
-	Value eval( Which , const State &x , const Derivs &derivs ) const
-    {
-	    typedef typename Which::type which_type;
-	    const size_t which = which_type::value;
-        return ( which == 0 ) ? x[ Index ] : derivs[ which - 1 ][ Index ];
-    }
-
-
-//	template< class Which , class State , class Derivs >
-//	Value operator()( Which , const State &x , const Derivs &derivs )
-//	{
-//	    typedef typename Which::type which_type;
-//	    const size_t which = which_type::value;
-//	    return ( which == 0 ) ? x[ m_index ] : derivs[ which - 1 ][ m_index ];
-//	}
 
 	size_t m_index ;
 
@@ -68,8 +44,11 @@ variable_node< Index , Value > make_variable_node( void )
 	return variable_node< Index , Value >();
 }
 
+
+} // namespace tree_nodes_v1
+
 template< size_t Index , class Value >
-void print_node( std::ostream &out , const variable_node< Index , Value > &node , size_t indent = 0 )
+void print_node( std::ostream &out , const tree_nodes_v1::variable_node< Index , Value > &node , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
 	out << "Variable ( " << Index << " )";

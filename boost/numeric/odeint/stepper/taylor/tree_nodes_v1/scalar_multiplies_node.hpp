@@ -20,7 +20,7 @@ namespace boost {
 namespace numeric {
 namespace odeint {
 namespace taylor_detail {
-
+namespace tree_nodes_v1 {
 
 
 template< class Child , class Value = double >
@@ -29,24 +29,12 @@ struct scalar_multiplies_node : unary_node< Child , Value >
 	scalar_multiplies_node( const Child &child , const Value &factor )
 	: unary_node< Child , Value >( child ) , m_factor( factor ) { }
 
-	template< class Derivs >
-	Value operator()( const Derivs &derivs , size_t which )
-	{
-		return m_child( derivs , which ) * m_factor;
-	}
-
 	template< class State , class Derivs >
 	Value operator()( const State &x , const Derivs &derivs , size_t which )
 	{
 		return m_child( x , derivs , which ) * m_factor;
 	}
 
-
-	template< class Which , class State , class Derivs >
-	Value eval( Which , const State &x , const Derivs &derivs )
-	{
-	    return this->m_child.eval< Which >( x , derivs ) * m_factor;
-	}
 
 	Value m_factor;
 };
@@ -57,8 +45,10 @@ scalar_multiplies_node< Child , Value > make_scalar_multiplies_node( const Child
 	return scalar_multiplies_node< Child , Value >( child , factor );
 }
 
+} // namespace tree_nodes_v1
+
 template< class Child , class Value >
-void print_node( std::ostream &out , const scalar_multiplies_node< Child , Value > &node , size_t indent = 0 )
+void print_node( std::ostream &out , const tree_nodes_v1::scalar_multiplies_node< Child , Value > &node , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
 	out << "Scalar multiplies" << " ( " << node.m_factor << " ,\n";

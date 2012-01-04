@@ -8,22 +8,25 @@
 #ifndef NODE_FACTORY_HPP_
 #define NODE_FACTORY_HPP_
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/minus_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/plus_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/multiplies_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/scalar_multiplies_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/scalar_plus_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/variable_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/constant_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/sin_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/minus_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/plus_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/multiplies_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/scalar_multiplies_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/scalar_plus_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/variable_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/constant_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/sin_node.hpp>
 
 
 namespace boost {
 namespace numeric {
 namespace odeint {
 namespace taylor_detail {
+namespace tree_nodes_v1 {
 
-struct node_v1_factory
+
+
+struct node_factory
 {
     typedef double value_type;
 
@@ -109,10 +112,10 @@ struct node_v1_factory
 
 };
 
-
-}
-}
-}
-}
+} // namespace tree_nodes_v1
+} // namespace taylor_detail
+} // namespace odeint
+} // namespace numeric
+} // namespace boost
 
 #endif /* NODE_FACTORY_HPP_ */

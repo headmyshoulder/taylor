@@ -20,6 +20,7 @@ namespace boost {
 namespace numeric {
 namespace odeint {
 namespace taylor_detail {
+namespace tree_nodes_v1 {
 
 
 
@@ -28,12 +29,6 @@ struct constant_node
 {
 	constant_node( const Value &value )
 	: m_value( value ) { }
-
-	template< class Derivs >
-	Value operator()( const Derivs &derivs , size_t which ) const
-	{
-		return ( which == 0 ) ? m_value : 0.0;
-	}
 
 	template< class State , class Derivs >
 	Value operator()( const State &x , const Derivs &derivs , size_t which ) const
@@ -51,8 +46,11 @@ constant_node< Value > make_constant_node( const Value &value )
 	return constant_node< Value >( value );
 }
 
+} // namespace tree_nodes_v1
+
+
 template< class Value >
-void print_node( std::ostream &out , const constant_node< Value > &node , size_t indent = 0 )
+void print_node( std::ostream &out , const tree_nodes_v1::constant_node< Value > &node , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
 	out << "Constant ( " << node.m_value << " )";

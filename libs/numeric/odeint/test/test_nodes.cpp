@@ -15,17 +15,17 @@
 
 #include <tr1/array>
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/constant_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/variable_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/plus_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/multiplies_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/sin_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/constant_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/variable_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/plus_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/multiplies_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/sin_node.hpp>
 
 #include "evaluate.hpp"
 
 using namespace std;
 using namespace std::tr1;
-using namespace boost::numeric::odeint::taylor_detail;
+using namespace boost::numeric::odeint::taylor_detail::tree_nodes_v1;
 
 
 

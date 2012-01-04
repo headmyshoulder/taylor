@@ -22,7 +22,7 @@ namespace boost {
 namespace numeric {
 namespace odeint {
 namespace taylor_detail {
-
+namespace tree_nodes_v1 {
 
 
 template< class Child , class Value = double >
@@ -30,13 +30,6 @@ struct sin_node : public unary_node< Child , Value >
 {
 	sin_node( const Child &child  )
 	: unary_node< Child , Value >( child ) { }
-
-	template< class Derivs >
-	Value operator()( const Derivs &derivs , size_t which )
-	{
-		// assert( false );
-		return 0.0;
-	}
 
 	template< class State , class Derivs >
 	Value operator()( const State &x , const Derivs &derivs , size_t which )
@@ -53,8 +46,10 @@ sin_node< Child , Value > make_sin( const Child &child )
 	return sin_node< Child , Value >( child );
 }
 
+} // namespace tree_nodes_v1
+
 template< class Child , class Value >
-void print_node( std::ostream &out , const sin_node< Child , Value > &node , size_t indent = 0 )
+void print_node( std::ostream &out , const tree_nodes_v1::sin_node< Child , Value > &node , size_t indent = 0 )
 {
 	print_unary_node( out , node , "Sin" , indent );
 }

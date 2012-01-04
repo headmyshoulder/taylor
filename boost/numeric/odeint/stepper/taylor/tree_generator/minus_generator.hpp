@@ -14,8 +14,6 @@
 #ifndef MINUS_GENERATOR_HPP_
 #define MINUS_GENERATOR_HPP_
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/minus_node.hpp>
-
 #include <boost/proto/proto.hpp>
 
 namespace boost {

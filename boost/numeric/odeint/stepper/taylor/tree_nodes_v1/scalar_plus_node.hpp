@@ -20,7 +20,7 @@ namespace boost {
 namespace numeric {
 namespace odeint {
 namespace taylor_detail {
-
+namespace tree_nodes_v1 {
 
 
 template< class Child , class Value = double >
@@ -29,25 +29,11 @@ struct scalar_plus_node : unary_node< Child , Value >
 	scalar_plus_node( const Child &child , const Value &summand )
 	: unary_node< Child , Value >( child , "Scalar plus" ) , m_summand( summand ) { }
 
-	template< class Derivs >
-	Value operator()( const Derivs &derivs , size_t which )
-	{
-		return ( which == 0 ) ? m_summand + m_child( derivs , which ) : m_child( derivs , which ) ;
-	}
-
 	template< class State , class Derivs >
 	Value operator()( const State &x , const Derivs &derivs , size_t which )
 	{
 		return ( which == 0 ) ? m_summand + m_child( x , derivs , which ) : m_child( x , derivs , which ) ;
 	}
-
-//	template< class Which , class State , class Derivs , size_t Which >
-//	Value eval( const State &x , const Derivs &derivs )
-//    {
-//	    const size_t which = Which::value;
-//        return ( which == 0 ) ? m_summand + this->m_child.eval< Which >( x , derivs ) : this->m_child.eval< Which >( x , derivs ) ;
-//    }
-
 
 	Value m_summand;
 };
@@ -58,8 +44,10 @@ scalar_plus_node< Child , Value > make_scalar_plus_node( const Child &child , Va
 	return scalar_plus_node< Child , Value >( child , summand );
 }
 
+} // namespace tree_nodes_v1
+
 template< class Child , class Value >
-void print_node( std::ostream &out , const scalar_plus_node< Child , Value > &node , size_t indent = 0 )
+void print_node( std::ostream &out , const tree_nodes_v1::scalar_plus_node< Child , Value > &node , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
 	out << "Scalar plus" << " ( " << node.m_summand << " ,\n";

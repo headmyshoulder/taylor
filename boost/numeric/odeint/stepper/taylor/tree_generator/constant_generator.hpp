@@ -14,8 +14,6 @@
 #ifndef CONSTANT_GENERATOR_HPP_
 #define CONSTANT_GENERATOR_HPP_
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/constant_node.hpp>
-
 #include <boost/proto/proto.hpp>
 #include <boost/mpl/size_t.hpp>
 

@@ -15,8 +15,6 @@
 #define UNARY_GENERATOR_HPP_
 
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/sin_node.hpp>
-
 #include <boost/proto/proto.hpp>
 
 namespace boost {

@@ -19,8 +19,6 @@
 #include <boost/proto/proto.hpp>
 #include <boost/mpl/size_t.hpp>
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/variable_node.hpp>
-
 
 namespace boost {
 namespace numeric {

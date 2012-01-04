@@ -21,7 +21,7 @@ namespace boost {
 namespace numeric {
 namespace odeint {
 namespace taylor_detail {
-
+namespace tree_nodes_v1 {
 
 
 template< class Left , class Right , class Value = double , size_t MaxIntermediates = 100 >
@@ -29,17 +29,6 @@ struct multiplies_optimized_node : binary_node< Left , Right , Value >
 {
 	multiplies_optimized_node( const Left &left , const Right &right )
 	: binary_node< Left , Right , Value >( left , right ) , m_left_intermediates() , m_right_intermediates()  { }
-
-	template< class Derivs >
-	Value operator()( const Derivs &derivs , size_t which )
-	{
-		Value result = Value( 0.0 );
-		for( size_t i=0 ; i<=which ; ++i )
-		{
-			result += m_left( derivs , i ) * m_right( derivs , which - i );
-		}
-		return result;
-	}
 
 	template< class State , class Derivs >
 	Value operator()( const State &x , const Derivs &derivs , size_t which )
@@ -62,8 +51,10 @@ multiplies_optimized_node< Left , Right , Value > make_multiplies_optimized_node
 	return multiplies_optimized_node< Left , Right , Value >( left , right );
 }
 
+} // namespace tree_nodes_v1
+
 template< class Left , class Right , class Value >
-void print_node( std::ostream &out , const multiplies_optimized_node< Left , Right , Value > &node , size_t indent = 0 )
+void print_node( std::ostream &out , const tree_nodes_v1::multiplies_optimized_node< Left , Right , Value > &node , size_t indent = 0 )
 {
 	print_binary_node( out , node , "Mulitplies optimized" , indent );
 }

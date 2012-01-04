@@ -14,8 +14,6 @@
 #ifndef PLUS_GENERATOR_HPP_
 #define PLUS_GENERATOR_HPP_
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/plus_node.hpp>
-
 #include <boost/proto/proto.hpp>
 
 namespace boost {

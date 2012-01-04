@@ -15,10 +15,6 @@
 #define MULTIPLIES_GENERATOR_HPP_
 
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/multiplies_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/multiplies_optimized_node.hpp>
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/scalar_multiplies_node.hpp>
-
 #include <boost/proto/proto.hpp>
 
 namespace boost {
