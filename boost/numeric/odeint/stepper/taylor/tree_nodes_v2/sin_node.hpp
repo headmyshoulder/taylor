@@ -16,7 +16,7 @@
 
 #include <cassert>
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/unary_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/unary_node.hpp>
 
 namespace boost {
 namespace numeric {
@@ -25,14 +25,14 @@ namespace taylor_detail {
 namespace tree_nodes_v2 {
 
 
-template< class Child , class Value = double >
+template< typename Child , typename Value = double >
 struct sin_node : public unary_node< Child , Value >
 {
 	sin_node( const Child &child  )
 	: unary_node< Child , Value >( child ) { }
 
-	template< class State , class Derivs >
-	Value operator()( const State &x , const Derivs &derivs , size_t which )
+	template< typename State , typename Derivs , typename Which >
+	Value operator()( const State &x , const Derivs &derivs , Which )
 	{
 		// assert( false );
 		return 0.0;
@@ -40,7 +40,7 @@ struct sin_node : public unary_node< Child , Value >
 
 };
 
-template< class Value , class Child >
+template< typename Value , typename Child >
 sin_node< Child , Value > make_sin( const Child &child )
 {
 	return sin_node< Child , Value >( child );
@@ -48,7 +48,7 @@ sin_node< Child , Value > make_sin( const Child &child )
 
 } // namespace tree_nodes_v2
 
-template< class Child , class Value >
+template< typename Child , typename Value >
 void print_node( std::ostream &out , const tree_nodes_v2::sin_node< Child , Value > &node , size_t indent = 0 )
 {
 	print_unary_node( out , node , "Sin" , indent );

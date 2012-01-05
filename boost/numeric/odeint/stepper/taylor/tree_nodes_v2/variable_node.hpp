@@ -23,22 +23,22 @@ namespace taylor_detail {
 namespace tree_nodes_v2 {
 
 
-template< size_t Index , class Value = double >
+template< size_t Index , typename Value = double >
 struct variable_node
 {
     variable_node( void ) : m_index( Index ) { }
 
-	template< class State , class Derivs >
-	Value operator()( const State &x , const Derivs &derivs , size_t which ) const
+	template< typename State , typename Derivs , typename Which >
+	Value operator()( const State &x , const Derivs &derivs , Which ) const
 	{
-		return ( which == 0 ) ? x[ m_index ] : derivs[ which - 1 ][ m_index ];
+		return ( Which::value == 0 ) ? x[ m_index ] : derivs[ Which::value - 1 ][ m_index ];
 	}
 
 	size_t m_index ;
 
 };
 
-template< size_t Index , class Value >
+template< size_t Index , typename Value >
 variable_node< Index , Value > make_variable_node( void )
 {
 	return variable_node< Index , Value >();
@@ -47,7 +47,7 @@ variable_node< Index , Value > make_variable_node( void )
 
 } // namespace tree_nodes_v2
 
-template< size_t Index , class Value >
+template< size_t Index , typename Value >
 void print_node( std::ostream &out , const tree_nodes_v2::variable_node< Index , Value > &node , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";

@@ -31,7 +31,7 @@ using namespace boost::numeric::odeint::taylor_detail::tree_nodes_v1;
 
 int main( int argc , char **argv )
 {
-	evaluate(
+	evaluate_v1(
 		make_plus_node< double >( make_constant_node< double >( 1.0 ) , make_variable_node< 1 , double >() ) ,
 		make_sin< double >( make_multiplies_node< double >( make_variable_node< 0 , double >() , make_variable_node< 1 , double >() ) )
 	);

@@ -24,23 +24,23 @@ namespace tree_nodes_v2 {
 
 
 
-template< class Value = double >
+template< typename Value = double >
 struct constant_node
 {
 	constant_node( const Value &value )
 	: m_value( value ) { }
 
-	template< class State , class Derivs >
-	Value operator()( const State &x , const Derivs &derivs , size_t which ) const
+	template< typename State , typename Derivs , typename Which >
+	Value operator()( const State &x , const Derivs &derivs , Which ) const
 	{
-		return ( which == 0 ) ? m_value : 0.0;
+		return ( Which::value == 0 ) ? m_value : 0.0;
 	}
 
 	const Value &m_value;
 };
 
 
-template< class Value >
+template< typename Value >
 constant_node< Value > make_constant_node( const Value &value )
 {
 	return constant_node< Value >( value );
@@ -49,7 +49,7 @@ constant_node< Value > make_constant_node( const Value &value )
 } // namespace tree_nodes_v2
 
 
-template< class Value >
+template< typename Value >
 void print_node( std::ostream &out , const tree_nodes_v2::constant_node< Value > &node , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";

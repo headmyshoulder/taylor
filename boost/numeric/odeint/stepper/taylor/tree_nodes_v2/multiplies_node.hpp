@@ -14,7 +14,7 @@
 #ifndef MULTIPLIES_NODE_HPP_
 #define MULTIPLIES_NODE_HPP_
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/binary_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/binary_node.hpp>
 
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/range_c.hpp>
@@ -26,67 +26,53 @@ namespace taylor_detail {
 namespace tree_nodes_v2 {
 
 
-template< class Left , class Right , class Value = double >
+template< typename Left , typename Right , typename Value = double >
 struct multiplies_node : binary_node< Left , Right , Value >
 {
-    // wird spaeter in v2 benutzt
-//    template< class S , class D , class MaxOrder >
-//    struct adder
-//    {
-//        Value &m_result;
-//        Left &m_left;
-//        Right &m_right;
-//        const S &m_x;
-//        const D &m_derivs;
-//
-//
-//        adder( Value &result , Left &left , Right &right , const S &x , const D &derivs )
-//        : m_result( result ) , m_left( left ) , m_right( right ) , m_x( x ) , m_derivs( derivs ) { }
-//
-//        template< class Which >
-//        void operator()( Which )
-//        {
-//            typedef typename mpl::minus< MaxOrder , Which >::type which2;
-//            m_result += m_left( m_x , m_derivs , Which() ) * m_right( m_x , m_derivs , which2() );
-//        }
-//    };
-//
-//    template< class S , class D , class MaxOrder >
-//    static adder< S , D , MaxOrder > make_adder( Value &result , Left &left , Right &right , const S &x , const D &derivs )
-//    {
-//        return adder< S , D , MaxOrder >( result , left , right , x , derivs );
-//    }
+    template< typename S , typename D , typename MaxOrder >
+    struct adder
+    {
+        Value &m_result;
+        Left &m_left;
+        Right &m_right;
+        const S &m_x;
+        const D &m_derivs;
+
+
+        adder( Value &result , Left &left , Right &right , const S &x , const D &derivs )
+        : m_result( result ) , m_left( left ) , m_right( right ) , m_x( x ) , m_derivs( derivs ) { }
+
+        template< typename Which >
+        void operator()( Which )
+        {
+            typedef typename mpl::minus< MaxOrder , Which >::type which2;
+            m_result += m_left( m_x , m_derivs , Which() ) * m_right( m_x , m_derivs , which2() );
+        }
+    };
+
+    template< typename S , typename D , typename MaxOrder >
+    static adder< S , D , MaxOrder > make_adder( Value &result , Left &left , Right &right , const S &x , const D &derivs )
+    {
+        return adder< S , D , MaxOrder >( result , left , right , x , derivs );
+    }
 
 
 	multiplies_node( const Left &left , const Right &right )
 	: binary_node< Left , Right , Value >( left , right ) { }
 
-	template< class State , class Derivs >
-	Value operator()( const State &x , const Derivs &derivs , size_t which )
+	template< typename State , typename Derivs , typename Which >
+	Value operator()( const State &x , const Derivs &derivs , Which )
 	{
-		Value result = Value( 0.0 );
-		for( size_t i=0 ; i<=which ; ++i )
-		{
-			result += m_left( x , derivs , i ) * m_right( x , derivs , which - i );
-		}
-		return result;
+        namespace mpl = boost::mpl;
+        Value result = Value( 0.0 );
+        mpl::for_each< mpl::range_c< size_t , 0 , Which::value + 1 > >(
+                make_adder( result , this->m_left , this->m_right , x , derivs ) );
+        return result;
+
 	}
-
-	// wird spaeter in v2 benutzt
-//    template< typename Which , class State , class Derivs >
-//    Value eval( const State &x , const Derivs &derivs )
-//    {
-//        namespace mpl = boost::mpl;
-//        Value result = Value( 0.0 );
-//        static const size_t which = Which::value ;
-//        mpl::for_each< mpl::range_c< size_t , 0 , which + 1 > >(
-//                make_adder( result , this->m_left , this->m_right , x , derivs ) );
-//        return result;
-//    }
-
 };
 
-template< class Value , class Left , class Right >
+template< typename Value , typename Left , typename Right >
 multiplies_node< Left , Right , Value > make_multiplies_node( const Left &left , const Right &right )
 {
 	return multiplies_node< Left , Right , Value >( left , right );
@@ -94,7 +80,7 @@ multiplies_node< Left , Right , Value > make_multiplies_node( const Left &left ,
 
 } // namespace tree_nodes_v2
 
-template< class Left , class Right , class Value >
+template< typename Left , typename Right , typename Value >
 void print_node( std::ostream &out , const tree_nodes_v2::multiplies_node< Left , Right , Value > &node , size_t indent = 0 )
 {
 	print_binary_node( out , node , "Mulitplies" , indent );

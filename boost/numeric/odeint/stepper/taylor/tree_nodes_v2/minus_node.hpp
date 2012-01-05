@@ -14,7 +14,7 @@
 #ifndef MINUS_NODE_HPP_
 #define MINUS_NODE_HPP_
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/binary_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/binary_node.hpp>
 
 namespace boost {
 namespace numeric {
@@ -24,20 +24,20 @@ namespace tree_nodes_v2 {
 
 
 
-template< class Left , class Right , class Value = double >
+template< typename Left , typename Right , typename Value = double >
 struct minus_node : public binary_node< Left , Right , Value >
 {
 	minus_node( const Left &left , const Right &right )
 	: binary_node< Left , Right , Value >( left , right ) { }
 
-	template< class State , class Derivs >
-	Value operator()( const State &x , const Derivs &derivs , size_t which )
+	template< typename State , typename Derivs , typename Which >
+	Value operator()( const State &x , const Derivs &derivs , Which )
 	{
-		return m_left( x , derivs , which ) - m_right( x , derivs , which );
+		return m_left( x , derivs , Which() ) - m_right( x , derivs , Which() );
 	}
 };
 
-template< class Value , class Left , class Right >
+template< typename Value , typename Left , typename Right >
 minus_node< Left , Right , Value > make_minus_node( const Left &left , const Right &right )
 {
 	return minus_node< Left , Right , Value >( left , right );
@@ -46,7 +46,7 @@ minus_node< Left , Right , Value > make_minus_node( const Left &left , const Rig
 } // namespace tree_nodes_v2
 
 
-template< class Left , class Right , class Value >
+template< typename Left , typename Right , typename Value >
 void print_node( std::ostream &out , const tree_nodes_v2::minus_node< Left , Right , Value > &node , size_t indent = 0 )
 {
 	print_binary_node( out , node , "Minus" , indent );

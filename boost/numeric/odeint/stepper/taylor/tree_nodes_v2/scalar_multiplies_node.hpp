@@ -14,7 +14,7 @@
 #ifndef SCALAR_MULTIPLIES_NODE_HPP_
 #define SCALAR_MULTIPLIES_NODE_HPP_
 
-#include <boost/numeric/odeint/stepper/taylor/tree_nodes/unary_node.hpp>
+#include <boost/numeric/odeint/stepper/taylor/unary_node.hpp>
 
 namespace boost {
 namespace numeric {
@@ -23,23 +23,23 @@ namespace taylor_detail {
 namespace tree_nodes_v2 {
 
 
-template< class Child , class Value = double >
+template< typename Child , typename Value = double >
 struct scalar_multiplies_node : unary_node< Child , Value >
 {
 	scalar_multiplies_node( const Child &child , const Value &factor )
 	: unary_node< Child , Value >( child ) , m_factor( factor ) { }
 
-	template< class State , class Derivs >
-	Value operator()( const State &x , const Derivs &derivs , size_t which )
+	template< typename State , typename Derivs , typename Which >
+	Value operator()( const State &x , const Derivs &derivs , Which )
 	{
-		return m_child( x , derivs , which ) * m_factor;
+		return m_child( x , derivs , Which() ) * m_factor;
 	}
 
 
 	Value m_factor;
 };
 
-template< class Value , class Child >
+template< typename Value , typename Child >
 scalar_multiplies_node< Child , Value > make_scalar_multiplies_node( const Child &child , Value factor )
 {
 	return scalar_multiplies_node< Child , Value >( child , factor );
@@ -47,7 +47,7 @@ scalar_multiplies_node< Child , Value > make_scalar_multiplies_node( const Child
 
 } // namespace tree_nodes_v2
 
-template< class Child , class Value >
+template< typename Child , typename Value >
 void print_node( std::ostream &out , const tree_nodes_v2::scalar_multiplies_node< Child , Value > &node , size_t indent = 0 )
 {
 	for( size_t i=0 ; i<indent ; ++i ) out << "  ";
