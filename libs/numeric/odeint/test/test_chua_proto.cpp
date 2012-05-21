@@ -14,7 +14,7 @@
 #include <iostream>
 #include <fstream>
 
-#include <boost/numeric/odeint/stepper/taylor_direct_fixed_order.hpp>
+#include <boost/numeric/odeint/stepper/taylor_proto.hpp>
 #include <boost/numeric/odeint/stepper/taylor/placeholders.hpp>
 
 #include <boost/fusion/include/make_vector.hpp>
@@ -27,7 +27,7 @@ std::ostream& operator<<( std::ostream& out , const boost::array< T , N > &x )
 	return out;
 }
 
-typedef boost::numeric::odeint::taylor_direct_fixed_order< 4 , 3 > taylor_type;
+typedef boost::numeric::odeint::taylor_proto< 4 , 3 > taylor_type;
 typedef taylor_type::state_type state_type;
 typedef taylor_type::derivs_type derivs_type;
 
@@ -92,4 +92,3 @@ real    0m10.141s
 user    0m10.134s
 sys     0m0.003s
  */
-
