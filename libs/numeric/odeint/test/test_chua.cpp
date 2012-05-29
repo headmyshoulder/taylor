@@ -60,7 +60,7 @@ int main( int argc , char **argv )
 
 //	ofstream fout( "chua.dat" );
 	size_t count = 0;
-	while( t < 100000.0 )
+	while( t < 10000.0 )
 	{
 		stepper.do_step(
 				fusion::make_vector
@@ -71,7 +71,7 @@ int main( int argc , char **argv )
 				) ,
 				x , t , dt );
 
-		break;
+//		break;
 
 //		fout << t << "\t" << x << "\t" << dt << endl;
 		++count;

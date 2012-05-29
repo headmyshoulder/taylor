@@ -8,9 +8,9 @@
 #ifndef TAYLOR_PROTO_HPP_
 #define TAYLOR_PROTO_HPP_
 
-#include <iostream>
-#define tab "\t"
-using namespace std;
+//#include <iostream>
+//#define tab "\t"
+//using namespace std;
 
 #include <boost/numeric/odeint/stepper/taylor/placeholders.hpp>
 #include <boost/numeric/odeint/stepper/taylor/tree_proto/transforms.hpp>
@@ -164,7 +164,7 @@ public:
 	template< size_t MaxMult , size_t MaxOrder >
 	struct temporaries
 	{
-		boost::array< boost::array< boost::array< value_type , MaxMult > , MaxOrder + 1 > , dim > values_left , values_right;
+		boost::array< boost::array< value_type , MaxMult > , MaxOrder + 1 > values_left , values_right;
 		boost::array< size_t , dim > indices;
 		void reset( void )
 		{
@@ -185,18 +185,15 @@ public:
 		// move everything to value_type instead of double
 
 
-		typedef typename fusion::result_of::at_c< System , 0 >::type expr1_type;
-		static int const num_multiplies_nodes = num_of_mult< expr1_type >::type::value;
-		cout << num_multiplies_nodes << endl;
-		proto::display_expr( fusion::at_c< 0 >( sys ) );
+//		typedef typename fusion::result_of::at_c< System , 0 >::type expr1_type;
+//		static int const num_multiplies_nodes = num_of_mult< expr1_type >::type::value;
+//		cout << num_multiplies_nodes << endl;
+//		proto::display_expr( fusion::at_c< 0 >( sys ) );
 
 		typedef typename mpl::transform< System , num_of_mult< mpl::_1 > >::type num_of_mults;
 		typedef typename mpl::fold< num_of_mults , mpl::int_< -1 > , mpl::max< mpl::_1 , mpl::_2 > >::type max_mults;
 
-		cout << num_of_mult< typename fusion::result_of::at_c< System , 0 >::type >::type::value << endl;
-		cout << num_of_mult< typename fusion::result_of::at_c< System , 1 >::type >::type::value << endl;
-		cout << num_of_mult< typename fusion::result_of::at_c< System , 2 >::type >::type::value << endl;
-		cout << "Max mults : " << max_mults::type::value << endl;
+//		cout << "Max mults : " << max_mults::type::value << endl;
 
 		temporaries< size_t( max_mults::type::value ) , order_value > temp;
 
@@ -204,6 +201,14 @@ public:
 		{
 			temp.reset();
 			boost::mpl::for_each< boost::mpl::range_c< size_t , 0 , dim > >( taylor_detail::make_proto_eval_derivs< order_value >( sys , in , der , temp , dt_fac , i ) );
+
+//			cout << i << tab << dt_fac << endl;
+//			for( size_t j=0 ; j<=i ; ++j )
+//			{
+//				for( size_t k=0 ; k<dim ; ++k )
+//					cout << tab << der[j][k];
+//				cout << endl;
+//			}
 
 			while( true )
 			{

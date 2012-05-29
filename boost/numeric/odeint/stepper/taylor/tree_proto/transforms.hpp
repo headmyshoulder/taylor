@@ -25,6 +25,7 @@ namespace boost {
 namespace numeric {
 namespace odeint {
 namespace taylor_detail {
+namespace proto_transform {
 
 	namespace proto = boost::proto;
 
@@ -61,7 +62,7 @@ namespace taylor_detail {
 					typename impl::state_param state ,
 					typename impl::data_param data ) const
 			{
-//				cout << "Plus transform" << endl;
+				// cout << "Plus transform" << endl;
 				return Grammar()( proto::left( expr ) , state , data )
                      + Grammar()( proto::right( expr ) , state , data );
 			}
@@ -82,9 +83,69 @@ namespace taylor_detail {
 					typename impl::state_param state ,
 					typename impl::data_param data ) const
 			{
-//				cout << "Minus transform" << endl;
+				// cout << "Minus transform" << endl;
 				return Grammar()( proto::left( expr ) , state , data )
                      - Grammar()( proto::right( expr ) , state , data );
+			}
+		};
+	};
+
+
+
+	template< typename Grammar >
+	struct multiplies_transform_optim : proto::transform< multiplies_transform_optim< Grammar > >
+	{
+		template< typename Expr , typename State , typename Data >
+		struct impl : proto::transform_impl< Expr , State , Data >
+		{
+			typedef double result_type;
+
+			result_type operator()(
+					typename impl::expr_param expr ,
+					typename impl::state_param state ,
+					typename impl::data_param data ) const
+			{
+				// cout << "Multiplies transform optim" << endl;
+				typedef typename impl::data data_type;
+
+				// insert code for the temporaries here!!!
+				// d[k] = sum_i dr i dl (n-1)
+				size_t &mult_index = data.temporaries.indices[data.index];
+
+				data.temporaries.values_left[data.which][mult_index] = Grammar()( proto::left( expr ) , state , data );
+				data.temporaries.values_right[data.which][mult_index] = Grammar()( proto::right( expr ) , state , data );
+
+//				cout << "abc " << data.index << tab << mult_index << endl;
+
+//				for( size_t i=0 ; i<=data.which ; ++i )
+//				{
+//					double l = data.temporaries.values_left[data.index][i][mult_index];
+//					double r = data.temporaries.values_right[data.index][i][mult_index];
+//					cout << tab << i << tab << l << tab << r << endl;
+//				}
+
+				double tmp = 0.0;
+				for( size_t k=0 ; k<=data.which ; ++k )
+				{
+					double l = data.temporaries.values_left[k][mult_index];
+					double r = data.temporaries.values_right[data.which - k ][mult_index];
+					tmp += l * r;
+//					cout << tab << k << tab << tmp << tab << l << tab << r << endl;
+
+//					tmp += data.temporaries.values_left[data.index][k][mult_index] * data.temporaries.values_right[data.index][data.which - k ][mult_index];
+
+//					data_type data1( k ,  data.x , data.derivs , data.temporaries , data.dt_fac );
+//					data_type data2( data.which - k ,  data.x , data.derivs , data.temporaries , data.dt_fac );
+//
+//					tmp += Grammar()( proto::left( expr ) , state , data1 )
+//						 * Grammar()( proto::right( expr ) , state , data2 );
+
+				}
+//				cout << endl;
+
+				++mult_index;
+
+				return tmp;
 			}
 		};
 	};
@@ -104,50 +165,25 @@ namespace taylor_detail {
 					typename impl::state_param state ,
 					typename impl::data_param data ) const
 			{
-//				cout << "Multiplies transform" << endl;
 				typedef typename impl::data data_type;
 
-				// insert code for the temporaries here!!!
-				// d[k] = sum_i dr i dl (n-1)
-				size_t &mult_index = data.temporaries.indices[data.index];
-
-				data.temporaries.values_left[data.index][data.which][mult_index] = Grammar()( proto::left( expr ) , state , data );
-				data.temporaries.values_right[data.index][data.which][mult_index] = Grammar()( proto::right( expr ) , state , data );
-
-				cout << "abc " << data.index << tab << mult_index << endl;
-
-				for( size_t i=0 ; i<=data.which ; ++i )
-				{
-					double l = data.temporaries.values_left[data.index][i][mult_index];
-					double r = data.temporaries.values_right[data.index][i][mult_index];
-					cout << tab << i << tab << l << tab << r << endl;
-				}
+				// cout << "Multiplies transform" << endl;
 
 				double tmp = 0.0;
 				for( size_t k=0 ; k<=data.which ; ++k )
 				{
-					double l = data.temporaries.values_left[data.index][k][mult_index];
-					double r = data.temporaries.values_right[data.index][data.which - k ][mult_index];
-					tmp += l * r;
-//					cout << tab << k << tab << tmp << tab << l << tab << r << endl;
+					data_type data1( k ,  data.x , data.derivs , data.temporaries , data.dt_fac );
+					data_type data2( data.which - k ,  data.x , data.derivs , data.temporaries , data.dt_fac );
 
-//					tmp += data.temporaries.values_left[data.index][k][mult_index] * data.temporaries.values_right[data.index][data.which - k ][mult_index];
-
-//					data_type data1( k ,  data.x , data.derivs , data.temporaries , data.dt_fac );
-//					data_type data2( data.which - k ,  data.x , data.derivs , data.temporaries , data.dt_fac );
-//
-//					tmp += Grammar()( proto::left( expr ) , state , data1 )
-//						 * Grammar()( proto::right( expr ) , state , data2 );
+					tmp += Grammar()( proto::left( expr ) , state , data1 )
+						 * Grammar()( proto::right( expr ) , state , data2 );
 
 				}
-				cout << endl;
-
-				++mult_index;
-
 				return tmp;
 			}
 		};
 	};
+
 
 
 	struct terminal_double_transform : proto::transform< terminal_double_transform >
@@ -162,7 +198,7 @@ namespace taylor_detail {
 					typename impl::state_param state ,
 					typename impl::data_param data ) const
 			{
-//				cout << "Terminal double transform" << endl;
+				// cout << "Terminal double transform" << endl;
 				return ( data.which == 0 ) ? proto::value( expr ) : 0.0;
 			}
 		};
@@ -182,7 +218,7 @@ namespace taylor_detail {
 					typename impl::state_param state ,
 					typename impl::data_param data ) const
 			{
-//				cout << "Terminal placeholder transform" << endl;
+				// cout << "Terminal placeholder transform" << endl;
 				typedef typename impl::expr expr_type;
 				typedef typename expr_type::proto_args args_type;
 				typedef typename args_type::child0 index_type;
@@ -206,9 +242,9 @@ namespace taylor_detail {
 					typename impl::state_param state ,
 					typename impl::data_param data ) const
 			{
-//				cout << "Right shift transform" << endl;
+				// cout << "Right shift transform" << endl;
 				return Grammar()( proto::left( expr ) , state , data )
-						+ ( data.which == 0 ) ? proto::value( proto::right( expr ) ) : 0.0;
+						+ ( ( data.which == 0 ) ? proto::value( proto::right( expr ) ) : 0.0 );
 			}
 		};
 	};
@@ -226,9 +262,9 @@ namespace taylor_detail {
 					typename impl::state_param state ,
 					typename impl::data_param data ) const
 			{
-//				cout << "Right shift transform" << endl;
+				// cout << "Right shift transform" << endl;
 				return Grammar()( proto::right( expr ) , state , data )
-						+ ( data.which == 0 ) ? proto::value( proto::left( expr ) ) : 0.0;
+						+ ( ( data.which == 0 ) ? proto::value( proto::left( expr ) ) : 0.0 );
 			}
 		};
 	};
@@ -247,7 +283,7 @@ namespace taylor_detail {
 					typename impl::state_param state ,
 					typename impl::data_param data ) const
 			{
-//				cout << "Right scalar multiplies transform" << endl;
+				// cout << "Right scalar multiplies transform" << endl;
 				return Grammar()( proto::left( expr ) , state , data ) * proto::value( proto::right( expr ) );
 			}
 		};
@@ -266,7 +302,7 @@ namespace taylor_detail {
 					typename impl::state_param state ,
 					typename impl::data_param data ) const
 			{
-//				cout << "Left scalar multiplies transform" << endl;
+				// cout << "Left scalar multiplies transform" << endl;
 				return Grammar()( proto::right( expr ) , state , data ) * proto::value( proto::left( expr ) );
 			}
 		};
@@ -300,7 +336,6 @@ namespace taylor_detail {
 	template< typename Grammar >
 	struct taylor_scalar_multiplies :
 		proto::or_<
-//	        proto::when< proto::multiplies< proto::terminal< double > , proto::terminal< double > > , multiplies_transform< Grammar > > ,
 			proto::when< proto::multiplies< Grammar , proto::terminal< double > > , right_scalar_multiplies_transform< Grammar > > ,
 			proto::when< proto::multiplies< proto::terminal< double > , Grammar > , left_scalar_multiplies_transform< Grammar > >
 		> { };
@@ -318,9 +353,9 @@ namespace taylor_detail {
 	struct taylor_transform :
 	proto::or_
 	<
+	    taylor_scalar_multiplies< taylor_transform > ,
 	    taylor_simple_multiplies< taylor_transform , proto::_ , proto::_ > ,
 		taylor_shift< taylor_transform > ,
-		taylor_scalar_multiplies< taylor_transform > ,
 		taylor_double_terminal ,
 		taylor_placeholder_terminal< proto::_ > ,
 		taylor_plus< taylor_transform > ,
@@ -328,6 +363,8 @@ namespace taylor_detail {
 		taylor_multiplies< taylor_transform >
 	>
 	{ };
+
+} // namespace proto
 
 
 
@@ -339,7 +376,7 @@ namespace taylor_detail {
 		typedef State state_type;
 		typedef Derivs deriv_type;
 		typedef Temporaries temporaries_type;
-		typedef taylor_context< state_type , deriv_type , temporaries_type , Order > taylor_context_type;
+		typedef proto_transform::taylor_context< state_type , deriv_type , temporaries_type , Order > taylor_context_type;
 
 
 		System m_sys;
@@ -355,8 +392,11 @@ namespace taylor_detail {
 			m_data.index = Index::value;
 
 			const expr_type &expr = boost::fusion::at< Index >( m_sys );
-			double deriv = taylor_transform()( expr , 0.0 , m_data );
+			double deriv = proto_transform::taylor_transform()( expr , 0.0 , m_data );
+//			cout << m_data.x[0] << tab << m_data.dt_fac << tab << m_data.which << tab << deriv << endl;
 			m_data.derivs[ m_data.which ][ Index::value ] = m_data.dt_fac / double( m_data.which + 1 ) * deriv;
+
+//			cout << endl;
 		}
 	};
 

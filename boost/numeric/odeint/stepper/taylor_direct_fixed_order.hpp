@@ -40,6 +40,10 @@
 #include <boost/numeric/odeint/stepper/taylor/tree_nodes_v1/node_factory.hpp>
 #include <boost/numeric/odeint/stepper/taylor/print_tree.hpp>
 
+//#include <iostream>
+//#define tab "\t"
+//using namespace std;
+
 
 namespace boost {
 namespace numeric {
@@ -150,6 +154,15 @@ public:
 			boost::mpl::for_each< boost::mpl::range_c< size_t , 0 , dim > >(
 					make_eval_derivs( sys , in , der , dt_fac , i )
 			);
+
+//			cout << i << tab << dt_fac << endl;
+//			for( size_t j=0 ; j<=i ; ++j )
+//			{
+//				for( size_t k=0 ; k<dim ; ++k )
+//					cout << tab << der[j][k];
+//				cout << endl;
+//			}
+
 
 			while( true )
 			{

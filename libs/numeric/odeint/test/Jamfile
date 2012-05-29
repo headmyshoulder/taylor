@@ -13,3 +13,4 @@ exe test_taylor_meta_direct_fixed_order : test_taylor_meta_direct_fixed_order.cp
 exe test_sin : test_sin.cpp ;
 exe test_chua : test_chua.cpp ;
 exe test_chua_proto : test_chua_proto.cpp ;
+exe test_simple_system : test_simple_system.cpp ;

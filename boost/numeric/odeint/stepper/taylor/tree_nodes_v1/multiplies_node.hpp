@@ -19,10 +19,6 @@
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/range_c.hpp>
 
-#include <iostream>
-#define tab "\t"
-using namespace std;
-
 namespace boost {
 namespace numeric {
 namespace odeint {
@@ -39,17 +35,14 @@ struct multiplies_node : binary_node< Left , Right , Value >
 	template< class State , class Derivs >
 	Value operator()( const State &x , const Derivs &derivs , size_t which )
 	{
-		cout << "org" << endl;
 		Value result = Value( 0.0 );
 		for( size_t i=0 ; i<=which ; ++i )
 		{
 			Value l = m_left( x , derivs , i );
 			Value r = m_right( x , derivs , which - i );
 			result += l * r;
-			cout << tab << i << tab << result << tab << l << tab << r << endl;
 //			result += m_left( x , derivs , i ) * m_right( x , derivs , which - i );
 		}
-		cout << endl;
 		return result;
 	}
 };

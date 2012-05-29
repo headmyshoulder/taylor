@@ -47,7 +47,7 @@ struct eval_derivs
 	{
 		typedef typename fusion::result_of::at< System , Index >::type expr_type;
 
-	 	expr_type expr = boost::fusion::at< Index >( m_sys );
+	 	const expr_type &expr = boost::fusion::at< Index >( m_sys );
 
 	 	double deriv = expr( m_x , m_derivs , m_which );
 	 	m_derivs[ m_which ][ Index::value ] = m_dt_fac / double( m_which + 1 ) * deriv;
